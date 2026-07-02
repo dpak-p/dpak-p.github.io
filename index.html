@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepak Pandidurai | Atmospheric Scientist & Artist</title>
+    <meta name="description" content="PhD researcher at IIT Roorkee studying atmospheric rivers and Indian monsoon extremes. Also an artist, photographer, and traveler.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&family=Righteous&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        header: ['Righteous', 'cursive'],
+                        bubbly: ['Fredoka', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        midnight: '#050b14',
+                        sunnySky: '#f8fafc',
+                        researchCyan: '#06b6d4',
+                        creationCyan: '#3b82f6',
+                        neonPurple: '#8b5cf6',
+                        neonPink: '#ec4899',
+                        travelGreen: '#10b981',
+                        artAmber: '#f59e0b',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 20s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ── BASE ── */
+        body { transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; cursor: none; }
+
+        /* ── CURSOR ── */
+        #cursor-glow {
+            position: fixed; top: 0; left: 0; width: 28px; height: 28px;
+            border-radius: 50%; pointer-events: none; z-index: 0;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(6,182,212,0.24) 0%, rgba(6,182,212,0.08) 45%, transparent 75%);
+            mix-blend-mode: screen; opacity: 0.95;
+        }
+        .dark #cursor-glow {
+            background: radial-gradient(circle, rgba(6,182,212,0.28) 0%, rgba(139,92,246,0.12) 45%, transparent 75%);
+        }
+        #cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background: #06b6d4; border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(6,182,212,0.75);
+        }
+
+        /* ── NEON GLOWS ── */
+        .text-neon-cyan  { text-shadow: 0 0 10px rgba(6,182,212,0.5),   0 0 20px rgba(6,182,212,0.3); }
+        .text-neon-purple{ text-shadow: 0 0 10px rgba(139,92,246,0.5),  0 0 20px rgba(139,92,246,0.3); }
+        .text-neon-pink  { text-shadow: 0 0 10px rgba(236,72,153,0.5),  0 0 20px rgba(236,72,153,0.3); }
+        .text-neon-green { text-shadow: 0 0 10px rgba(16,185,129,0.5),  0 0 15px rgba(16,185,129,0.3); }
+        .text-neon-amber { text-shadow: 0 0 10px rgba(245,158,11,0.5),  0 0 15px rgba(245,158,11,0.3); }
+        .dark .text-neon-cyan  { text-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4, 0 0 40px #06b6d4; }
+        .dark .text-neon-purple{ text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 40px #8b5cf6; }
+        .dark .text-neon-pink  { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899, 0 0 30px #ec4899; }
+        .dark .text-neon-green { text-shadow: 0 0 10px #10b981, 0 0 20px #10b981; }
+        .dark .text-neon-amber { text-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b; }
+
+        /* ── ORBIT PLANETS ── */
+        .orbit-planet {
+            position: absolute; cursor: none;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50% !important; overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.3s;
+            transform-origin: center center;
+        }
+        .orbit-planet:hover {
+            transform: translate(-50%, -50%) scale(1.2) !important;
+            box-shadow: 0 0 40px rgba(6,182,212,0.9); z-index: 50;
+        }
+
+        /* ── BLACK HOLE ── */
+        .black-hole-core {
+            border-radius: 50%;
+            background: radial-gradient(circle, #000 30%, rgba(5,11,20,0.8) 70%, transparent 100%);
+            box-shadow: inset 0 0 50px #000, 0 0 60px rgba(6,182,212,0.6), 0 0 120px rgba(139,92,246,0.4);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* ── ACCRETION DISK ── */
+        .accretion-disk text {
+            font-size: 10px; font-family: 'JetBrains Mono', monospace;
+            font-weight: 700; letter-spacing: 5px;
+            fill: #64748b; text-transform: uppercase;
+        }
+        .dark .accretion-disk text { fill: #94a3b8; }
+
+        /* ── AMBIENT FLOW ── */
+        @keyframes vaporFlow { 0% { stroke-dashoffset: 2000; } 100% { stroke-dashoffset: 0; } }
+        .animate-river { stroke-dasharray: 1000; animation: vaporFlow 45s linear infinite; }
+
+        /* ── STORM RINGS ── */
+        @keyframes expandRing {
+            0%   { transform: translate(-50%,-50%) scale(0.85); opacity: 0.5; }
+            100% { transform: translate(-50%,-50%) scale(2.0);  opacity: 0; }
+        }
+        .storm-ring {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(6,182,212,0.25);
+            pointer-events: none;
+            animation: expandRing 4s ease-out infinite;
+        }
+
+        /* ── EXPANDABLE ── */
+        .expandable-content { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s ease-out; }
+        .expandable-content.expanded { grid-template-rows: 1fr; }
+        .expandable-inner { overflow: hidden; }
+
+        /* ── ISOBAR DIVIDERS ── */
+        .isobar { width: 100%; height: 48px; overflow: hidden; opacity: 0.18; pointer-events: none; }
+        .dark .isobar { opacity: 0.28; }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── SKILL CHIPS ── */
+        .skill-chip {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+            padding: 5px 13px; border-radius: 100px; border: 1px solid;
+            transition: all 0.2s; cursor: default;
+        }
+        .skill-chip:hover { transform: scale(1.06); }
+
+        /* ── TIMELINE ── */
+        .tl-dot {
+            position: absolute; left: -37px; width: 14px; height: 14px;
+            border-radius: 50%; border: 3px solid rgba(5,11,20,0.6);
+        }
+
+        /* ── PUB CARDS ── */
+        .pub-card {
+            border-left: 3px solid transparent;
+            padding: 18px 22px; border-radius: 0 12px 12px 0;
+            background: rgba(255,255,255,0.04);
+            transition: all 0.3s;
+        }
+        .pub-card:hover { background: rgba(6,182,212,0.05); border-left-color: #06b6d4; }
+
+        /* ── REPO CARDS ── */
+        .repo-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px; padding: 22px;
+            transition: all 0.3s; position: relative; overflow: hidden; display: block;
+        }
+        .repo-card:hover { border-color: rgba(59,130,246,0.4); transform: translateY(-3px); }
+        .repo-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(to right,#3b82f6,#06b6d4);
+            transition: width 0.35s;
+        }
+        .repo-card:hover::after { width: 100%; }
+
+        /* ── GALLERY ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+            grid-auto-rows: 190px; gap: 10px;
+        }
+        .g-tall { grid-row: span 2; }
+        .g-wide { grid-column: span 2; }
+        .gallery-slot {
+            background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.08));
+            border: 1px dashed rgba(6,182,212,0.25);
+            border-radius: 14px; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: all 0.3s; text-align: center; padding: 16px;
+        }
+        .gallery-slot:hover { border-color: rgba(6,182,212,0.5); background: linear-gradient(135deg,rgba(6,182,212,0.15),rgba(139,92,246,0.15)); }
+
+        /* ── BLOG CARDS ── */
+        .blog-card {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 18px; padding: 28px; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .blog-card:hover { transform: translateY(-4px); border-color: rgba(6,182,212,0.25); }
+        .blog-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
+        .bc-travel::before { background: linear-gradient(to bottom,#10b981,#06b6d4); }
+        .bc-science::before { background: linear-gradient(to bottom,#06b6d4,#8b5cf6); }
+        .bc-art::before { background: linear-gradient(to bottom,#f59e0b,#ec4899); }
+
+        /* ── GLASS CARDS (from original) ── */
+        .glass-card {
+            background: rgba(255,255,255,0.6); backdrop-filter: blur(12px);
+            border: 1px solid rgba(0,0,0,0.05); border-radius: 20px; transition: all 0.35s;
+        }
+        .dark .glass-card {
+            background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05);
+        }
+        .glass-card:hover { border-color: rgba(6,182,212,0.4); }
+
+        /* ── DATA CARD HOVER ── */
+        .data-card { transition: transform 0.3s, box-shadow 0.3s; }
+        .data-card:hover { transform: translateY(-4px); }
+
+        /* ── PHOTO SLOT ── */
+        .photo-slot {
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            border: 1.5px dashed rgba(6,182,212,0.3); border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 32px; transition: all 0.3s;
+        }
+        .photo-slot:hover { border-color: rgba(6,182,212,0.5); }
+    </style>
+</head>
+
+<body class="bg-sunnySky text-slate-800 dark:bg-midnight dark:text-slate-200">
+
+<!-- ── CURSOR ── -->
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
+
+<!-- ── AMBIENT ATMOSPHERIC RIVERS BG ── -->
+<div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+    <svg class="absolute top-0 left-0 w-full h-full opacity-30 dark:opacity-50" preserveAspectRatio="none" viewBox="0 0 1440 1000" fill="none">
+        <path d="M 1500,-100 Q 1100,400 600,600 T 100,1400" stroke-width="7" stroke-linecap="round" class="animate-river stroke-cyan-300 dark:stroke-cyan-500 blur-[2px]"/>
+        <path d="M 1600,-50 Q 1050,450 550,550 T 180,1350" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 15" class="animate-river stroke-purple-300 dark:stroke-purple-500 blur-[1px]"/>
+        <path d="M -100,200 Q 400,100 800,300 T 1600,500" stroke-width="2" stroke-linecap="round" class="animate-river stroke-cyan-200 dark:stroke-cyan-700 opacity-60" style="animation-delay:-15s"/>
+    </svg>
+</div>
+
+<!-- ── NAV ── -->
+<nav id="main-nav" class="fixed top-0 z-50 w-full px-6 lg:px-16 py-4 backdrop-blur-xl border-b border-black/[0.03] dark:border-white/[0.03] transition-all duration-500 opacity-0 -translate-y-full pointer-events-none bg-white/40 dark:bg-midnight/60 shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="#hero" class="font-header text-2xl tracking-wider custom-hover">
+            <span class="text-slate-900 dark:text-white text-neon-cyan">D</span><span class="text-researchCyan">.</span><span class="text-slate-900 dark:text-white text-neon-purple">P</span><span class="text-neonPurple">.</span>
+        </a>
+        <div class="hidden md:flex space-x-6 text-sm font-semibold font-bubbly text-slate-600 dark:text-slate-300">
+            <a href="#about"        class="custom-hover hover:text-researchCyan  transition-colors">About</a>
+            <a href="#research"     class="custom-hover hover:text-researchCyan  transition-colors">Research</a>
+            <a href="#publications" class="custom-hover hover:text-neonPurple    transition-colors">Publications</a>
+            <a href="#code"         class="custom-hover hover:text-creationCyan  transition-colors">Code</a>
+            <a href="#gallery"      class="custom-hover hover:text-neonPink      transition-colors">Gallery</a>
+            <a href="#travel"       class="custom-hover hover:text-travelGreen   transition-colors">Blog</a>
+            <a href="#contact"      class="custom-hover hover:text-artAmber      transition-colors">Contact</a>
+        </div>
+        <button id="modeToggle" class="custom-hover w-16 h-8 rounded-full bg-slate-200 dark:bg-slate-800 p-1 flex items-center transition-all duration-300 shadow-inner border border-black/5 dark:border-white/5">
+            <div id="toggleKnob" class="w-6 h-6 rounded-full bg-researchCyan dark:bg-neonPurple shadow-md transform transition-transform duration-300 flex items-center justify-center">
+                <svg id="sunIcon"  class="w-3.5 h-3.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
+                <svg id="moonIcon" class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+            </div>
+        </button>
+    </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO — STORM EYE + ORBITAL SYSTEM
+═════════════════════════════════════════ -->
+<header id="hero" class="relative w-full h-screen flex items-center justify-center overflow-hidden z-10">
+
+    <svg id="connection-svg" class="absolute inset-0 w-full h-full pointer-events-none z-0" fill="none"></svg>
+
+    <!-- Orbit Planets -->
+    <a href="#research" class="orbit-planet custom-hover z-20 w-[104px] h-[104px] glass-card shadow-[0_0_16px_rgba(6,182,212,0.2)]">
+        <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">🌧️</span>
+            <span class="font-bubbly font-bold text-xs text-slate-800 dark:text-white">Research</span>
+        </div>
+    </a>
+    <a href="#publications" class="orbit-planet custom-hover z-20 w-[116px] h-[116px] glass-card shadow-[0_0_16px_rgba(139,92,246,0.2)]">
+        <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">📄</span>
+            <span class="font-bubbly font-bold text-xs text-slate-800 dark:text-white">Papers</span>
+        </div>
+    </a>
+    <a href="#code" class="orbit-planet custom-hover z-20 w-[100px] h-[100px] glass-card shadow-[0_0_16px_rgba(59,130,246,0.2)]">
+        <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">💻</span>
+            <span class="font-bubbly font-bold text-xs text-slate-800 dark:text-white">Code</span>
+        </div>
+    </a>
+    <a href="#gallery" class="orbit-planet custom-hover z-20 w-[104px] h-[104px] glass-card shadow-[0_0_16px_rgba(236,72,153,0.2)]">
+        <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">🎨</span>
+            <span class="font-bubbly font-bold text-xs text-slate-800 dark:text-white">Gallery</span>
+        </div>
+    </a>
+    <a href="#travel" class="orbit-planet custom-hover z-20 w-[100px] h-[100px] glass-card shadow-[0_0_16px_rgba(16,185,129,0.2)]">
+        <div class="flex flex-col items-center gap-1">
+            <span class="text-2xl">✈️</span>
+            <span class="font-bubbly font-bold text-xs text-slate-800 dark:text-white">Travel</span>
+        </div>
+    </a>
+
+    <!-- Expanding storm rings -->
+    <div class="storm-ring w-72 h-72 absolute left-1/2 top-1/2" style="animation-delay:0s"></div>
+    <div class="storm-ring w-72 h-72 absolute left-1/2 top-1/2" style="animation-delay:1.33s"></div>
+    <div class="storm-ring w-72 h-72 absolute left-1/2 top-1/2" style="animation-delay:2.66s"></div>
+
+    <!-- Center: black hole + accretion disk + D.P. -->
+    <div id="center-node" class="relative z-20 flex items-center justify-center pointer-events-none will-change-transform">
+
+        <!-- Accretion / isobar disk -->
+        <svg class="absolute w-[440px] h-[440px] animate-spin-slow accretion-disk z-10" viewBox="0 0 300 300" style="transform:rotateX(62deg) scaleY(0.88)">
+            <path id="text-curve" d="M 150,150 m -118,0 a 118,118 0 1,1 236,0 a 118,118 0 1,1 -236,0" fill="transparent"/>
+            <text><textPath href="#text-curve" startOffset="0%">◆ ATMOSPHERIC RIVERS ◆ INDIAN MONSOON ◆ IIT ROORKEE ◆ SCIENCE ◆ ART ◆&nbsp;</textPath></text>
+        </svg>
+
+        <!-- Core -->
+        <div class="black-hole-core w-60 h-60 absolute z-20 animate-pulse-slow"></div>
+
+        <!-- D.P. Typography (from original, preserved) -->
+        <h1 class="relative z-30 font-header text-8xl md:text-9xl tracking-tight leading-none flex items-center">
+            <span class="text-slate-900 dark:text-white text-neon-cyan">D</span>
+            <span class="text-researchCyan">.</span>
+            <span class="text-slate-900 dark:text-white text-neon-purple">P</span>
+            <span class="text-neonPurple">.</span>
+        </h1>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce z-20 pointer-events-none opacity-40">
+        <span class="font-bubbly text-xs tracking-widest uppercase mb-2 text-slate-500 dark:text-slate-400">Descend</span>
+        <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+</header>
+
+<!-- ════════════════════════════════════════
+     CONTENT WRAPPER (glassmorphism ramp)
+═════════════════════════════════════════ -->
+<div class="relative z-20 bg-sunnySky/80 dark:bg-midnight/80 backdrop-blur-3xl border-t border-black/5 dark:border-white/5 rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_-20px_50px_rgba(6,182,212,0.04)]">
+
+<!-- ════════════════════════════════════════
+     ABOUT
+═════════════════════════════════════════ -->
+<section id="about" class="max-w-7xl mx-auto px-6 lg:px-16 pt-24 pb-20">
+
+    <!-- intro tagline (preserved from original style) -->
+    <div class="text-center mb-16 reveal">
+        <h2 class="font-header text-3xl md:text-5xl text-slate-900 dark:text-white mb-8 text-neon-cyan">The Intersection of Data & Art</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto">
+            <div class="glass-card p-6 hover:border-researchCyan/50 custom-hover">
+                <strong class="font-header text-xl text-slate-900 dark:text-white block mb-2 tracking-wide">Science Core.</strong>
+                <p class="text-slate-700 dark:text-slate-300 leading-relaxed text-base">Investigating anomalous moisture transport and hydrological extremes. Applying WRF simulations, Moisture trajectories, and ML to understand what makes India's monsoons flood.</p>
+            </div>
+            <div class="glass-card p-6 hover:border-neonPurple/50 custom-hover">
+                <strong class="font-header text-xl text-slate-900 dark:text-white block mb-2 tracking-wide">Canvas Mind.</strong>
+                <p class="text-slate-700 dark:text-slate-300 leading-relaxed text-base">Simultaneously a travel sketcher, photographer, and digital designer. The same curiosity that reads a satellite image reads a landscape — I just pick up a pencil instead of Python.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- bio + stats -->
+    <div class="flex flex-col lg:flex-row items-start gap-14 reveal">
+
+        <!-- photo column -->
+        <div class="lg:w-[340px] flex-shrink-0">
+            <!-- Hidden real photo placeholder -->
+            <!-- <img src="images/deepak.jpg" alt="Deepak Pandidurai" class="rounded-2xl w-full object-cover aspect-[4/5]"> -->
+            <div class="photo-slot w-full aspect-[4/5] rounded-2xl">
+                <div class="text-5xl mb-3">🕵️‍♂️</div>
+                <p class="font-mono text-xs text-slate-500">Identity rendering...</p>
+                <p class="font-mono text-[10px] text-slate-400 mt-1">(Currently dodging a monsoon somewhere)</p>
+            </div>
+
+            <!-- stat pills -->
+            <div class="mt-5 grid grid-cols-3 gap-3">
+                <div class="text-center p-3 rounded-xl border border-researchCyan/20 bg-cyan-50 dark:bg-cyan-900/10">
+                    <div class="font-header text-2xl text-researchCyan text-neon-cyan">4</div>
+                    <div class="font-mono text-[9px] text-slate-500 uppercase tracking-wider mt-0.5">Q1 Papers</div>
+                </div>
+                <div class="text-center p-3 rounded-xl border border-neonPurple/20 bg-purple-50 dark:bg-purple-900/10">
+                    <div class="font-header text-2xl text-neonPurple text-neon-purple">6+</div>
+                    <div class="font-mono text-[9px] text-slate-500 uppercase tracking-wider mt-0.5">Conferences</div>
+                </div>
+                <div class="text-center p-3 rounded-xl border border-artAmber/20 bg-amber-50 dark:bg-amber-900/10">
+                    <div class="font-header text-lg text-artAmber text-neon-amber">IIT</div>
+                    <div class="font-mono text-[9px] text-slate-500 uppercase tracking-wider mt-0.5">Roorkee</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- bio text -->
+        <div class="flex-1 space-y-5">
+            <p class="font-mono text-xs tracking-widest text-researchCyan uppercase">// Deepak Pandidurai</p>
+            <h2 class="font-header text-4xl lg:text-5xl text-slate-900 dark:text-white leading-tight">
+                I study the <span class="text-researchCyan text-neon-cyan">invisible rivers</span> that drown cities.
+            </h2>
+            <div class="space-y-4 text-slate-600 dark:text-slate-300 leading-relaxed text-base">
+                <p>PhD researcher at <strong class="text-slate-800 dark:text-white">IIT Roorkee</strong> (Hydrology Dept.) studying how anomalous atmospheric moisture transport — atmospheric rivers — fuels India's deadliest flood events. My work links monsoon dynamics, thermodynamics, and numerical modeling to answer one question: why do some storms flood entire river basins for days?</p>
+                <p>Before IIT, I was a Junior Research Fellow at <strong class="text-slate-800 dark:text-white">IISER Mohali</strong>, running WRF simulations on an ISRO-funded project and publishing on extreme monsoon rainfall. I've presented at EGU Vienna, IAHS at IIT Roorkee, and IITM Pune — and co-organized the IAHS 2025 Scientific Assembly design vertical here.</p>
+                <p>Outside the lab: I sketch the landscapes I travel through, photograph what moves me, and run — competitively. Tamil is my first language; the atmosphere is my second.</p>
+            </div>
+
+            <!-- tags -->
+            <div class="flex flex-wrap gap-2 pt-1">
+                <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">Atmospheric Rivers</span>
+                <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">Indian Monsoon</span>
+                <span class="skill-chip border-creationCyan/40 text-creationCyan bg-blue-50 dark:bg-blue-900/20">WRF-ARW</span>
+                <span class="skill-chip border-neonPink/40 text-neonPink bg-pink-50 dark:bg-pink-900/20">Flood Extremes</span>
+                <span class="skill-chip border-travelGreen/40 text-travelGreen bg-emerald-50 dark:bg-emerald-900/20">Travel Sketching</span>
+                <span class="skill-chip border-artAmber/40 text-artAmber bg-amber-50 dark:bg-amber-900/20">Photography</span>
+            </div>
+
+            <!-- links -->
+            <div class="flex flex-wrap gap-5 pt-1">
+                <a href="mailto:deepak_p@hy.iitr.ac.in" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-researchCyan hover:text-cyan-400 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    Email
+                </a>
+                <a href="https://linkedin.com/in/deepak-p-0523ba184" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-neonPurple hover:text-purple-400 transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    LinkedIn
+                </a>
+                <a href="https://github.com/dpak-p" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-slate-500 hover:text-slate-700 dark:hover:text-white transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="#" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-artAmber hover:text-amber-400 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    Google Scholar
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ISOBAR DIVIDER -->
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,24 C360,8 720,40 1080,24 C1260,16 1380,28 1440,24" stroke="#06b6d4" stroke-width="1.5" fill="none"/><path d="M0,32 C360,16 720,48 1080,32 C1260,24 1380,36 1440,32" stroke="#8b5cf6" stroke-width="0.8" fill="none" stroke-dasharray="6 4"/></svg></div>
+
+<!-- ════════════════════════════════════════
+     RESEARCH & EXPERIENCE
+═════════════════════════════════════════ -->
+<section id="research" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
+    <div class="mb-14 text-center reveal">
+        <span class="font-bubbly text-sm text-researchCyan tracking-widest uppercase block mb-2">Academic Journey</span>
+        <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white text-neon-cyan">Research &amp; Experience</h2>
+    </div>
+
+    <!-- Current focus cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 reveal">
+        <div class="data-card md:col-span-2 glass-card p-6 hover:border-researchCyan/40">
+            <div class="flex items-center justify-between mb-3">
+                <span class="font-mono text-[10px] uppercase tracking-widest text-researchCyan bg-researchCyan/10 border border-researchCyan/20 px-3 py-1 rounded-full">Current Focus</span>
+                <span class="font-mono text-xs text-slate-400">2024 → Present</span>
+            </div>
+            <h3 class="font-header text-xl text-slate-900 dark:text-white mb-2">Sequential Moisture Dynamics &amp; Hydrological Extremes</h3>
+            <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">How do atmospheric rivers chain together to produce multi-day flood-generating rainfall across India? I use HYSPLIT backward trajectories, ERA5 reanalysis, and WRF-ARW convective-permitting simulations to trace moisture from origin to flood.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="skill-chip border-researchCyan/30 text-researchCyan/80 text-xs">WRF-ARW</span>
+                <span class="skill-chip border-researchCyan/30 text-researchCyan/80 text-xs">HYSPLIT</span>
+                <span class="skill-chip border-researchCyan/30 text-researchCyan/80 text-xs">ERA5</span>
+                <span class="skill-chip border-researchCyan/30 text-researchCyan/80 text-xs">Python / CDO</span>
+            </div>
+        </div>
+        <div class="data-card glass-card p-6 hover:border-neonPurple/40">
+            <span class="font-mono text-[10px] uppercase tracking-widest text-neonPurple bg-neonPurple/10 border border-neonPurple/20 px-3 py-1 rounded-full inline-block mb-4">Institution</span>
+            <div class="text-4xl mb-2">🏛️</div>
+            <h3 class="font-header text-lg text-slate-900 dark:text-white">IIT Roorkee</h3>
+            <p class="font-mono text-xs text-slate-500 mt-1">Dept. of Hydrology</p>
+            <p class="text-xs text-slate-400 mt-3">Roorkee, Uttarakhand, India</p>
+            <div class="mt-3 pt-3 border-t border-neonPurple/10">
+                <p class="font-mono text-[9px] text-slate-400 uppercase tracking-widest mb-1">Memberships</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">EGU · IAHS · SAMA · YHS India · SAADRI</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="reveal">
+        <h3 class="font-header text-2xl text-slate-900 dark:text-white mb-8 flex items-center gap-3">
+            <span class="text-researchCyan">▸</span> Career Timeline
+            <button id="timeline-btn" onclick="toggleTimeline()" class="custom-hover ml-auto flex items-center gap-2 text-sm font-bubbly text-slate-400 hover:text-researchCyan transition-colors">
+                <span id="timeline-btn-text">Show full history</span>
+                <svg id="timeline-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+        </h3>
+
+        <!-- Timeline always-visible items -->
+        <div class="relative border-l-2 border-researchCyan/20 pl-8 space-y-8 max-w-4xl mx-auto before:absolute before:inset-0 before:left-0 before:w-[2px] before:bg-gradient-to-b before:from-researchCyan/50 before:via-neonPurple/30 before:to-transparent">
+
+            <!-- PhD -->
+            <div class="relative group custom-hover">
+                <div class="tl-dot bg-researchCyan shadow-[0_0_14px_#06b6d4]" style="border-color:rgba(5,11,20,0.7)"></div>
+                <div class="glass-card p-5 group-hover:border-researchCyan/50 shadow-md">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <span class="font-bubbly text-xs bg-researchCyan/10 text-researchCyan px-3 py-1 rounded-full border border-researchCyan/20">Jan 2024 — Present</span>
+                        <span class="font-mono text-[10px] text-slate-400">PhD Scholar</span>
+                    </div>
+                    <h3 class="font-header text-xl text-slate-900 dark:text-white mb-1">Indian Institute of Technology Roorkee</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-3 font-semibold">Ph.D. Research Scholar · Atmospheric Science x Hydrology</p>
+                    <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+                        <li class="flex gap-2"><span class="text-researchCyan mt-0.5">◈</span>Leading research on Atmospheric Rivers, anomalous moisture transport and hydrological extremes under climate change.</li>
+                        <li class="flex gap-2"><span class="text-researchCyan mt-0.5">◈</span>Propose, configure, and maintain critical HPC computational servers and Shared databases for the research group.</li>
+                        <li class="flex gap-2"><span class="text-researchCyan mt-0.5">◈</span>Taught soft computing for hydrology (Python and ML) to Postgrads & PhDs.</li>
+                        <li class="flex gap-2"><span class="text-researchCyan mt-0.5">◈</span>Organize & participate in national and international conferences, workshops and outreach programs.</li>
+                        <li class="flex gap-2"><span class="text-researchCyan mt-0.5">◈</span>Design coordinator for the 12th IAHS Scientific Assembly 2025 (IIT Roorkee, 700+ delegates).</li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- JRF -->
+            <div class="relative group custom-hover">
+                <div class="tl-dot bg-neonPurple shadow-[0_0_14px_#8b5cf6]" style="border-color:rgba(5,11,20,0.7)"></div>
+                <div class="glass-card p-5 group-hover:border-neonPurple/50 shadow-md">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <span class="font-bubbly text-xs bg-neonPurple/10 text-neonPurple px-3 py-1 rounded-full border border-neonPurple/20">Aug 2022 — Dec 2023</span>
+                        <span class="font-mono text-[10px] text-slate-400">JRF · ISRO Project</span>
+                    </div>
+                    <h3 class="font-header text-xl text-slate-900 dark:text-white mb-1">IISER Mohali</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-3 font-semibold">Junior Research Fellow</p>
+                    <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+                        <li class="flex gap-2"><span class="text-neonPurple mt-0.5">◈</span>Led climate data retrieval, analysis, WRF simulations, and authored publications for ISRO-funded project on Convective permitting modelling of widespread extreme rainfall events in central India.</li>
+                        <li class="flex gap-2"><span class="text-neonPurple mt-0.5">◈</span>Taught python and Developed educational materials for grad students; designed and managed the Research Lab website.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden timeline items -->
+        <div id="hidden-timeline" class="expandable-content max-w-4xl mx-auto">
+            <div class="expandable-inner">
+                <div class="relative border-l-2 border-researchCyan/10 pl-8 space-y-8 mt-8">
+
+                    <!-- Masters Thesis -->
+                    <div class="relative group custom-hover">
+                        <div class="tl-dot bg-creationCyan shadow-[0_0_12px_#3b82f6]" style="border-color:rgba(5,11,20,0.7)"></div>
+                        <div class="glass-card p-5 group-hover:border-creationCyan/50 shadow-md">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <span class="font-bubbly text-xs bg-creationCyan/10 text-creationCyan px-3 py-1 rounded-full border border-creationCyan/20">2022 · Masters Thesis</span>
+                            </div>
+                            <h3 class="font-header text-lg text-slate-900 dark:text-white mb-1">Masters Thesis</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2 font-semibold font-italic">Assessment of meteorological drought characteristics over Tamil Nadu using SPI and Aridity Index</p>
+                            <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-300">
+                                <li class="flex gap-2"><span class="text-creationCyan mt-0.5">◈</span>Spatio-temporal analysis of Aridity Index (1981–2020) using CDO and QGIS across Tamil Nadu.</li>
+                                <li class="flex gap-2"><span class="text-creationCyan mt-0.5">◈</span>Drought characterization via the Standardized Precipitation Index (SPI).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- MSc -->
+                    <div class="relative group custom-hover">
+                        <div class="tl-dot bg-creationCyan shadow-[0_0_12px_#3b82f6]" style="border-color:rgba(5,11,20,0.7)"></div>
+                        <div class="glass-card p-5 group-hover:border-creationCyan/50 shadow-md">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <span class="font-bubbly text-xs bg-creationCyan/10 text-creationCyan px-3 py-1 rounded-full border border-creationCyan/20">2020 — 2022</span>
+                            </div>
+                            <h3 class="font-header text-xl text-slate-900 dark:text-white mb-1">M.Sc. Atmospheric Science</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2 font-semibold">Central University of Rajasthan, Rajasthan, India</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Coursework: Atmospheric Dynamics · Tropical Meteorology · Hydrometeorology · Numerical Weather Prediction · Remote Sensing & GIS · Climate Change · Extreme Weather Events · Disaster Management · Environmental Imapact Assesment</p>
+                        </div>
+                    </div>
+
+                    <!-- BSc -->
+                    <div class="relative group custom-hover">
+                        <div class="tl-dot bg-neonPink shadow-[0_0_12px_#ec4899]" style="border-color:rgba(5,11,20,0.7)"></div>
+                        <div class="glass-card p-5 group-hover:border-neonPink/50 shadow-md">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <span class="font-bubbly text-xs bg-neonPink/10 text-neonPink px-3 py-1 rounded-full border border-neonPink/20">2016 — 2019</span>
+                            </div>
+                            <h3 class="font-header text-xl text-slate-900 dark:text-white mb-1">B.Sc. Physics</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2 font-semibold">Madras Christian College, University of Madras, Tamilnadu, India</p>
+                            <ul class="space-y-1 text-sm text-slate-600 dark:text-slate-300">
+                                <li class="flex gap-2"><span class="text-neonPink mt-0.5">◈</span>General Secretary, Physics Society — led 150+ member body, won 2 intercollegiate championships.</li>
+                                <li class="flex gap-2"><span class="text-neonPink mt-0.5">◈</span>Indoor Games Secretary, Bishop Heber Hall — managed indoor sports, budget & creative arts for 250+ residential Hall.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="mt-16 reveal max-w-4xl mx-auto">
+        <h3 class="font-header text-2xl text-slate-900 dark:text-white mb-6 flex items-center gap-3"><span class="text-neonPurple">▸</span> Toolkit</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <p class="font-mono text-[10px] text-slate-400 uppercase tracking-widest mb-3">Programming &amp; Geospatial</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">Python</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">BASH</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">MATLAB</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">FORTRAN</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">CDO</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">NCL</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">GrADS</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">QGIS</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">Google Earth Engine</span>
+                    <span class="skill-chip border-researchCyan/40 text-researchCyan bg-cyan-50 dark:bg-cyan-900/20">Tableau</span>
+                </div>
+            </div>
+            <div>
+                <p class="font-mono text-[10px] text-slate-400 uppercase tracking-widest mb-3">Models &amp; Systems</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">WRF-ARW</span>
+                    <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">WRF-DA</span>
+                    <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">HYSPLIT</span>
+                    <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">HPC Workflows</span>
+                    <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">ML Applications</span>
+                    <span class="skill-chip border-neonPurple/40 text-neonPurple bg-purple-50 dark:bg-purple-900/20">Data Assimilation</span>
+                </div>
+            </div>
+        </div>
+        <!-- Achievement badges -->
+        <div class="mt-5 flex flex-wrap gap-3">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-900/10 border border-artAmber/30">
+                <span>🏆</span><span class="font-mono text-xs text-artAmber">UGC-NET Lectureship Qualified (2023)</span>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/10 border border-creationCyan/30">
+                <span>📊</span><span class="font-mono text-xs text-creationCyan">Google Advanced Data Analytics Certification (2024)</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ISOBAR DIVIDER -->
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,12 C480,36 960,0 1440,24" stroke="#8b5cf6" stroke-width="1.5" fill="none"/><path d="M0,36 C480,12 960,48 1440,12" stroke="#ec4899" stroke-width="0.8" fill="none" stroke-dasharray="7 5"/></svg></div>
+
+<!-- ════════════════════════════════════════
+     PUBLICATIONS
+═════════════════════════════════════════ -->
+<section id="publications" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
+    <div class="mb-14 text-center reveal">
+        <span class="font-bubbly text-sm text-neonPurple tracking-widest uppercase block mb-2">Selected Publications</span>
+        <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white text-neon-purple">Research Impact</h2>
+        <p class="text-slate-500 dark:text-slate-400 font-mono text-xs mt-3">4 journal articles · 6 conference papers · Q1 journals</p>
+    </div>
+
+    <!-- Journal papers (original card style, all 4 shown) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+
+        <div class="glass-card p-7 hover:border-neonPurple/50 hover:shadow-[0_0_28px_rgba(139,92,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+            <div>
+                <span class="inline-block px-3 py-1 bg-neonPurple/10 text-neonPurple font-bubbly text-xs rounded-full mb-4 border border-neonPurple/20">2026 · Q1 Journal</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Sequential Moisture Dynamics Driving Multi-Day Flood-Producing Rainfall Across India</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Pandidurai, D., Raghuvanshi, A.S., Agarwal, A., &amp; Trigo, R.M.</p>
+                <p class="text-xs font-mono text-neonPurple mb-4">International Journal of Climatology</p>
+            </div>
+            <a href="https://doi.org/10.1002/joc.70462" target="_blank" class="custom-hover self-start px-4 py-2 rounded-full border border-neonPurple text-neonPurple text-xs font-semibold hover:bg-neonPurple hover:text-white transition-colors font-mono">doi:10.1002/joc.70462 ↗</a>
+        </div>
+
+        <div class="glass-card p-7 hover:border-neonPurple/50 hover:shadow-[0_0_28px_rgba(139,92,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+            <div>
+                <span class="inline-block px-3 py-1 bg-neonPurple/10 text-neonPurple font-bubbly text-xs rounded-full mb-4 border border-neonPurple/20">2025 · Q1 · AMS</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Interaction of the Monsoon Trough and Western Disturbance Ignites Multiday Extreme Rainfall Event in July 2023 over North India</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Saini, R., Attada, R., Hunt, K.M.R., Kizhuveettil, S., &amp; Pandidurai, D.</p>
+                <p class="text-xs font-mono text-neonPurple mb-4">Monthly Weather Review</p>
+            </div>
+            <a href="https://doi.org/10.1175/MWR-D-25-0147.1" target="_blank" class="custom-hover self-start px-4 py-2 rounded-full border border-neonPurple text-neonPurple text-xs font-semibold hover:bg-neonPurple hover:text-white transition-colors font-mono">doi:10.1175/MWR-D-25-0147.1 ↗</a>
+        </div>
+
+        <!-- Expandable: 2 more -->
+        <div id="shown-pubs-2" class="glass-card p-7 hover:border-creationCyan/50 hover:shadow-[0_0_28px_rgba(59,130,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+            <div>
+                <span class="inline-block px-3 py-1 bg-creationCyan/10 text-creationCyan font-bubbly text-xs rounded-full mb-4 border border-creationCyan/20">2025 · Q1 · Springer</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Widespread Monsoon Extreme Rainfall Events over Central Indian Region: Influence of Dynamics and Thermodynamics</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Pandidurai, D., Attada, R., Chakraborty, R., Kumari, A., &amp; Kumar, P.</p>
+                <p class="text-xs font-mono text-creationCyan mb-4">Climate Dynamics, 63(3)</p>
+            </div>
+            <a href="https://doi.org/10.1007/s00382-025-07641-8" target="_blank" class="custom-hover self-start px-4 py-2 rounded-full border border-creationCyan text-creationCyan text-xs font-semibold hover:bg-creationCyan hover:text-white transition-colors font-mono">doi:10.1007/s00382-025-07641-8 ↗</a>
+        </div>
+
+        <div class="glass-card p-7 hover:border-creationCyan/50 hover:shadow-[0_0_28px_rgba(59,130,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+            <div>
+                <span class="inline-block px-3 py-1 bg-creationCyan/10 text-creationCyan font-bubbly text-xs rounded-full mb-4 border border-creationCyan/20">2024 · Q1 · Springer</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">A Comparative Assessment of Meteorological Drought Characteristics in Agro-Climatic Zones of Rajasthan (Arid) and Tamil Nadu (Humid), India</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Mallick, T., Pandidurai, D., Sharma, D., Sharma, A., &amp; Panda, S.K.</p>
+                <p class="text-xs font-mono text-creationCyan mb-4">Natural Hazards, 120(5)</p>
+            </div>
+            <a href="https://doi.org/10.1007/s11069-023-06376-1" target="_blank" class="custom-hover self-start px-4 py-2 rounded-full border border-creationCyan text-creationCyan text-xs font-semibold hover:bg-creationCyan hover:text-white transition-colors font-mono">doi:10.1007/s11069-023-06376-1 ↗</a>
+        </div>
+    </div>
+
+    <!-- Conference papers (collapsible) -->
+    <div class="flex justify-center mt-8 reveal">
+        <button id="pubs-expander" onclick="togglePubs()" class="custom-hover px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-neonPurple hover:border-neonPurple transition-colors flex items-center gap-2">
+            <span id="pubs-btn-text">Show Conference &amp; Symposium Presentations (6)</span>
+            <svg id="pubs-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+    </div>
+
+    <div id="hidden-pubs" class="expandable-content mt-6">
+        <div class="expandable-inner">
+            <div class="space-y-3 max-w-4xl mx-auto">
+                <div class="pub-card"><span class="font-mono text-xs text-creationCyan">EGU General Assembly 2026 · Vienna, Austria</span><p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">Structural Characteristics of Moisture Transport Systems over the Indian Subcontinent during the Summer Monsoon</p><p class="text-xs text-slate-400 mt-1">Pandidurai, D. &amp; Agarwal, A.</p><a href="https://doi.org/10.5194/egusphere-egu26-1034" target="_blank" class="custom-hover inline-flex items-center gap-1 text-xs text-researchCyan hover:underline font-mono mt-1">doi:10.5194/egusphere-egu26-1034 ↗</a></div>
+                <div class="pub-card"><span class="font-mono text-xs text-creationCyan">INTROMET-2025 · IITM Pune · Virtual Oral Presentation</span><p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">Atmospheric Moisture Characteristics of Multi-Day Extreme Precipitation–Induced Floods in India</p><p class="text-xs text-slate-400 mt-1">Pandidurai, D., Raghuvanshi, A.S., Agarwal, A., &amp; Trigo, R.M.</p></div>
+                <div class="pub-card"><span class="font-mono text-xs text-creationCyan">IAHS Scientific Assembly 2025 · IIT Roorkee · Poster &amp; Flash Talk</span><p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">Atmospheric Moisture Linkages to Flood-Inducing Multi-Day Extreme Precipitation in India</p><p class="text-xs text-slate-400 mt-1">Pandidurai, D., Raghuvanshi, A.S., Agarwal, A., &amp; Trigo, R.M.</p></div>
+                <div class="pub-card"><span class="font-mono text-xs text-creationCyan">EGU General Assembly 2025 · Vienna, Austria · Virtual Poster</span><p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">Atmospheric Moisture Linkages to Flood-Inducing Multiday Extreme Precipitation in India</p><a href="https://doi.org/10.5194/egusphere-egu25-3278" target="_blank" class="custom-hover inline-flex items-center gap-1 text-xs text-researchCyan hover:underline font-mono mt-1">doi:10.5194/egusphere-egu25-3278 ↗</a></div>
+                <div class="pub-card"><span class="font-mono text-xs text-creationCyan">CORDEX 2023 · IITM Pune · Poster &amp; Lightning Talk</span><p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">Exploring the Vertical Moist Thermodynamic Characteristics of Extreme Rainfall over the Monsoon Core Region</p><p class="text-xs text-slate-400 mt-1">Pandidurai, D., Attada, R., &amp; Kumari, A.</p></div>
+                <div class="pub-card"><span class="font-mono text-xs text-creationCyan">TROPMET-2023 · Poster</span><p class="mt-2 text-sm font-semibold text-slate-800 dark:text-white">Numerical Simulation of Extreme Precipitation Events in the Core Monsoon Region Using Convective-Permitting Modeling</p><p class="text-xs text-slate-400 mt-1">Pandidurai, D. &amp; Attada, R.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ISOBAR DIVIDER -->
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,36 C480,8 960,48 1440,16" stroke="#3b82f6" stroke-width="1.5" fill="none"/><path d="M0,16 C480,44 960,4 1440,36" stroke="#06b6d4" stroke-width="0.6" fill="none" stroke-dasharray="8 6"/></svg></div>
+
+<!-- ════════════════════════════════════════
+     CODE
+═════════════════════════════════════════ -->
+<section id="code" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
+    <div class="mb-14 reveal">
+        <span class="font-bubbly text-sm text-creationCyan tracking-widest uppercase block mb-2">Open Source &amp; Tools</span>
+        <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white">Science is also <span class="text-creationCyan">code</span>.</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mt-3 max-w-xl">Analysis pipelines, model configs, and research tools — available on GitHub.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+
+        <a href="https://github.com/dpak-p" target="_blank" class="repo-card custom-hover">
+            <div class="flex items-start justify-between mb-3">
+                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span class="font-mono text-[10px] text-slate-400">Python</span>
+            </div>
+            <h4 class="font-header text-sm text-slate-800 dark:text-white mb-2">[Repo Syncing...]</h4>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Untangling the HYSPLIT trajectory spaghetti code and preparing it for public viewing. Deploying soon... 🍝</p>
+            <div class="mt-3 flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div><span class="font-mono text-[10px] text-slate-400">Python</span></div>
+        </a>
+
+        <a href="https://github.com/dpak-p" target="_blank" class="repo-card custom-hover">
+            <div class="flex items-start justify-between mb-3">
+                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span class="font-mono text-[10px] text-slate-400">Python / BASH / NCL</span>
+            </div>
+            <h4 class="font-header text-sm text-slate-800 dark:text-white mb-2">[Compiling Models...]</h4>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">WRF simulations take time. So does cleaning up the bash scripts that run them. ETA: Soon. ⏳</p>
+            <div class="mt-3 flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-blue-400"></div><span class="font-mono text-[10px] text-slate-400">Bash</span></div>
+        </a>
+
+        <a href="https://github.com/dpak-p" target="_blank" class="repo-card custom-hover">
+            <div class="flex items-start justify-between mb-3">
+                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span class="font-mono text-[10px] text-slate-400">CDO / Python</span>
+            </div>
+            <h4 class="font-header text-sm text-slate-800 dark:text-white mb-2">[Data Crunching...]</h4>
+            <p class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">Running the final QGIS layers and hiding all the `print('here')` statements before pushing. 🗺️</p>
+            <div class="mt-3 flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-green-400"></div><span class="font-mono text-[10px] text-slate-400">CDO</span></div>
+        </a>
+    </div>
+
+    <div class="mt-6 reveal">
+        <a href="https://github.com/dpak-p" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-creationCyan hover:text-blue-400 transition-colors">
+            View all repositories on GitHub ↗
+        </a>
+    </div>
+</section>
+
+<!-- ISOBAR DIVIDER -->
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,8 C360,36 720,4 1080,32 C1260,44 1380,24 1440,36" stroke="#ec4899" stroke-width="1.5" fill="none"/><path d="M0,40 C360,12 720,44 1080,16 C1260,4 1380,24 1440,12" stroke="#f59e0b" stroke-width="0.7" fill="none" stroke-dasharray="6 5"/></svg></div>
+
+<!-- ════════════════════════════════════════
+     GALLERY: ART + PHOTOGRAPHY
+═════════════════════════════════════════ -->
+<section id="gallery" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
+    <div class="mb-14 reveal">
+        <span class="font-bubbly text-sm text-neonPink tracking-widest uppercase block mb-2">Art &amp; Photography</span>
+        <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white"> <span class="text-neonPink text-neon-pink">Art </span>is also science.</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mt-3 max-w-xl">Sketches from the field. Photographs from the road. Digital illustrations from quiet nights.</p>
+    </div>
+
+    <div class="gallery-grid reveal">
+        <div class="g-tall gallery-slot"><div class="text-4xl mb-2">✏️</div><p class="font-mono text-xs text-slate-500">Travel Sketch</p><p class="font-mono text-[10px] text-slate-400 mt-1">Waiting for the ink to dry...</p></div>
+        <div class="gallery-slot"><div class="text-4xl mb-2">📸</div><p class="font-mono text-xs text-slate-500">Photography</p><p class="font-mono text-[10px] text-slate-400 mt-1">Developing in the darkroom...</p></div>
+        <div class="g-wide gallery-slot"><div class="text-4xl mb-2">🌄</div><p class="font-mono text-xs text-slate-500">Landscape</p><p class="font-mono text-[10px] text-slate-400 mt-1">Rendering the horizon...</p></div>
+        <div class="gallery-slot"><div class="text-4xl mb-2">🎨</div><p class="font-mono text-xs text-slate-500">Digital Art</p><p class="font-mono text-[10px] text-slate-400 mt-1">Connecting the pixels...</p></div>
+        <div class="gallery-slot"><div class="text-4xl mb-2">🌧️</div><p class="font-mono text-xs text-slate-500">Storm Study</p><p class="font-mono text-[10px] text-slate-400 mt-1">Waiting for the clouds to part...</p></div>
+        <div class="g-tall gallery-slot"><div class="text-4xl mb-2">✈️</div><p class="font-mono text-xs text-slate-500">Travel Portrait</p><p class="font-mono text-[10px] text-slate-400 mt-1">Uploading from the field...</p></div>
+        <div class="gallery-slot"><div class="text-4xl mb-2">🖼️</div><p class="font-mono text-xs text-slate-500">Illustration</p><p class="font-mono text-[10px] text-slate-400 mt-1">Aligning the vectors...</p></div>
+        <div class="gallery-slot"><div class="text-4xl mb-2">🏔️</div><p class="font-mono text-xs text-slate-500">Mountain</p><p class="font-mono text-[10px] text-slate-400 mt-1">Scaling the summit...</p></div>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3 reveal">
+        <div class="px-4 py-2 rounded-full border border-neonPink/30 bg-pink-50 dark:bg-pink-900/10 font-mono text-xs text-neonPink">Travel Sketching</div>
+        <div class="px-4 py-2 rounded-full border border-artAmber/30 bg-amber-50 dark:bg-amber-900/10 font-mono text-xs text-artAmber">Photography</div>
+        <div class="px-4 py-2 rounded-full border border-neonPurple/30 bg-purple-50 dark:bg-purple-900/10 font-mono text-xs text-neonPurple">Digital Design</div>
+    </div>
+</section>
+
+<!-- ISOBAR DIVIDER -->
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,32 C480,4 960,44 1440,12" stroke="#10b981" stroke-width="1.5" fill="none"/></svg></div>
+
+<!-- ════════════════════════════════════════
+     TRAVEL BLOG
+═════════════════════════════════════════ -->
+<section id="travel" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
+    <div class="mb-14 reveal">
+        <span class="font-bubbly text-sm text-travelGreen tracking-widest uppercase block mb-2">Travel &amp; Writing</span>
+        <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white">Field notes from <span class="text-travelGreen text-neon-green">the road</span>.</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mt-3">Blogs about places I go, things I notice, and the science I see everywhere.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+        <div class="blog-card bc-science opacity-60">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[10px] text-researchCyan uppercase tracking-widest">Science Blog · Coming Soon</span>
+                <span class="text-2xl">🌧️</span>
+            </div>
+            <h3 class="font-header text-lg text-slate-800 dark:text-white mb-2">What is an Atmospheric River?</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Drafting the manuscript. Trying to remove academic jargon and making sure the illustrations actually make sense... 📝</p>
+            <div class="mt-4 font-mono text-xs text-slate-400">→ compiling-draft...</div>
+        </div>
+
+        <div class="blog-card bc-travel opacity-60">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[10px] text-travelGreen uppercase tracking-widest">Travel · Coming Soon</span>
+                <span class="text-2xl">✈️</span>
+            </div>
+            <h3 class="font-header text-lg text-slate-800 dark:text-white mb-2">First Travel Post</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Packing bags, brewing coffee, and drafting the field notes. Check back after my next expedition! 🏕️</p>
+            <div class="mt-4 font-mono text-xs text-slate-400">→ loading-coordinates...</div>
+        </div>
+
+        <div class="blog-card bc-art opacity-60">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[10px] text-artAmber uppercase tracking-widest">Art + Science · Coming Soon</span>
+                <span class="text-2xl">✏️</span>
+            </div>
+            <h3 class="font-header text-lg text-slate-800 dark:text-white mb-2">Sketching the Sky</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Currently sharpening pencils, scanning sketches, and writing up how traveling changed the way I read weather patterns. 🎨</p>
+            <div class="mt-4 font-mono text-xs text-slate-400">→ rendering-canvas...</div>
+        </div>
+    </div>
+</section>
+
+<!-- ISOBAR DIVIDER -->
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,12 C480,40 960,8 1440,36" stroke="#f59e0b" stroke-width="1" fill="none"/><path d="M0,36 C480,8 960,40 1440,12" stroke="#06b6d4" stroke-width="0.7" fill="none" stroke-dasharray="9 6"/></svg></div>
+
+<!-- ════════════════════════════════════════
+     CONTACT
+═════════════════════════════════════════ -->
+<section id="contact" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-24 text-center reveal border-t border-black/5 dark:border-white/5">
+    <span class="font-bubbly text-sm text-artAmber tracking-widest uppercase block mb-4">Contact</span>
+    <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white mb-6">Let's <span class="text-artAmber text-neon-amber">talk</span>.</h2>
+    <p class="text-slate-500 dark:text-slate-400 max-w-md mx-auto text-base mb-12">Whether it's about monsoon physics, a collaboration, a photo, or just a good conversation — I'm reachable.</p>
+
+    <div class="flex flex-wrap justify-center gap-4 mb-14">
+        <a href="mailto:deepak_p@hy.iitr.ac.in" class="custom-hover inline-flex items-center gap-3 px-8 py-4 rounded-full border border-researchCyan text-researchCyan font-bubbly font-semibold hover:bg-researchCyan hover:text-white transition-all duration-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            Academic Email
+        </a>
+        <a href="mailto:dpak.edu@gmail.com" class="custom-hover inline-flex items-center gap-3 px-8 py-4 rounded-full border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-bubbly font-semibold hover:border-artAmber hover:text-artAmber transition-all duration-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            Personal Email
+        </a>
+    </div>
+
+    <a href="/assets/deepak_cv.pdf" target="_blank" class="custom-hover inline-flex items-center gap-3 px-8 py-4 rounded-full border border-artAmber text-artAmber font-bubbly font-semibold hover:bg-artAmber hover:text-white transition-all duration-300 mb-14">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-8m0 8-3-3m3 3 3-3M4 20h16"/></svg>
+        Get CV
+    </a>
+
+    <div class="flex justify-center gap-10 flex-wrap">
+        <a href="https://linkedin.com/in/deepak-p-0523ba184" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-neonPurple transition-colors">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            <span class="font-mono text-xs">LinkedIn</span>
+        </a>
+        <a href="https://github.com/dpak-p" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            <span class="font-mono text-xs">GitHub</span>
+        </a>
+        <a href="#" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-artAmber transition-colors" title="Link updating soon...">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="font-mono text-xs">Scholar</span>
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-black/5 dark:border-white/5 py-8 px-6 text-center">
+    <p class="mb-3 font-mono text-[11px] leading-relaxed text-slate-500/90 max-w-2xl mx-auto">
+        ---------------------- Disclaimer ----------------------
+        <br><br>
+        A butterfly flapped its wings, and now this website is under construction.
+        Much like a 10-day weather forecast, it is a perpetual work in progress and highly subject to change.
+        While the data is factual to the best of my knowledge, everything else represents my personal worldview and artistic interpretation.
+        <br><br>
+        Please don't quote me anywhere—unless, of course, it's to offer me a research grant :D
+    </p>
+
+</section>
+
+<footer class="border-t border-black/5 dark:border-white/5 py-8 px-6 text-center">
+    <p class="font-mono text-xs text-slate-400">
+        <span class="text-researchCyan">Deepak Pandidurai</span>
+        <span class="text-slate-300 dark:text-slate-600"> · </span>
+        PhD Researcher, IIT Roorkee
+        <span class="text-slate-300 dark:text-slate-600"> · </span>
+        Built with HTML, CSS &amp; curiosity
+        <span class="text-slate-300 dark:text-slate-600"> · </span>
+        <span class="text-neonPurple">2026</span>
+    </p>
+</footer>
+
+</div><!-- end content wrapper -->
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT
+═════════════════════════════════════════ -->
+<script>
+    // 1. Theme toggle
+    const html = document.documentElement;
+    const modeToggle = document.getElementById('modeToggle');
+    const toggleKnob = document.getElementById('toggleKnob');
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    html.classList.add(storedTheme);
+
+    function updateToggle() {
+        const isDark = html.classList.contains('dark');
+        toggleKnob.classList.toggle('translate-x-8', isDark);
+        moonIcon.classList.toggle('hidden', !isDark);
+        sunIcon.classList.toggle('hidden', isDark);
+    }
+    updateToggle();
+
+    modeToggle.addEventListener('click', () => {
+        const isDark = html.classList.contains('dark');
+        html.classList.remove(isDark ? 'dark' : 'light');
+        html.classList.add(isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        updateToggle();
+    });
+
+    // 2. Custom cursor
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorGlow = document.getElementById('cursor-glow');
+
+    window.addEventListener('mousemove', e => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top  = e.clientY + 'px';
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top  = e.clientY + 'px';
+    });
+
+    // 3. Timeline expander
+    function toggleTimeline() {
+        const content = document.getElementById('hidden-timeline');
+        const arrow   = document.getElementById('timeline-arrow');
+        const txt     = document.getElementById('timeline-btn-text');
+        const exp = content.classList.toggle('expanded');
+        arrow.style.transform = exp ? 'rotate(180deg)' : 'rotate(0deg)';
+        txt.textContent = exp ? 'Show less' : 'Show full history';
+    }
+
+    // 4. Publications expander
+    function togglePubs() {
+        const content = document.getElementById('hidden-pubs');
+        const arrow   = document.getElementById('pubs-arrow');
+        const txt     = document.getElementById('pubs-btn-text');
+        const exp = content.classList.toggle('expanded');
+        arrow.style.transform = exp ? 'rotate(180deg)' : 'rotate(0deg)';
+        txt.textContent = exp ? 'Hide Conference Papers' : 'Show Conference & Symposium Presentations (6)';
+    }
+
+    // 5. Nav reveal on scroll
+    const nav  = document.getElementById('main-nav');
+    const hero = document.getElementById('hero');
+    new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) {
+                nav.classList.remove('opacity-0','-translate-y-full','pointer-events-none');
+                nav.classList.add('opacity-100','translate-y-0');
+            } else {
+                nav.classList.add('opacity-0','-translate-y-full','pointer-events-none');
+                nav.classList.remove('opacity-100','translate-y-0');
+            }
+        });
+    }, { threshold: 0.1 }).observe(hero);
+
+    // 6. Hero black hole orbital animation (preserved from original)
+    const centerNode = document.getElementById('center-node');
+    const nodes = document.querySelectorAll('.orbit-planet');
+    const svg   = document.getElementById('connection-svg');
+
+    nodes.forEach((_, i) => {
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.id = `path-${i}`;
+        path.style.stroke      = 'rgba(139,92,246,0.2)';
+        path.style.strokeWidth = '1';
+        path.style.fill        = 'none';
+        svg.appendChild(path);
+    });
+
+    let time = 0, hoveringNode = false;
+
+    hero.addEventListener('mousemove', e => {
+        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
+        centerNode.style.transform = `perspective(1000px) rotateX(${-dy*15}deg) rotateY(${dx*15}deg) scale3d(1.02,1.02,1.02)`;
+    });
+    hero.addEventListener('mouseleave', () => {
+        centerNode.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    });
+    nodes.forEach(n => {
+        n.addEventListener('mouseenter', () => hoveringNode = true);
+        n.addEventListener('mouseleave', () => hoveringNode = false);
+    });
+
+    (function animate() {
+        time += hoveringNode ? 0.0005 : 0.002;
+        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        const r  = Math.min(window.innerWidth, window.innerHeight) * 0.35;
+
+        nodes.forEach((node, i) => {
+            const angle = time + i * (Math.PI * 2 / nodes.length);
+            const tx = cx + Math.cos(angle) * r;
+            const ty = cy + Math.sin(angle) * r;
+            node.style.left = tx + 'px';
+            node.style.top  = ty + 'px';
+            node.style.transform = 'translate(-50%,-50%)';
+
+            const path = document.getElementById(`path-${i}`);
+            const cp1x = cx + (tx - cx) * 0.5 + Math.sin(time * 3 + i) * 60;
+            const cp1y = cy + (ty - cy) * 0.5 + Math.cos(time * 3 + i) * 60;
+            path.setAttribute('d', `M ${cx} ${cy} Q ${cp1x} ${cp1y} ${tx} ${ty}`);
+        });
+
+        requestAnimationFrame(animate);
+    })();
+
+    window.addEventListener('resize', () => {
+        svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
+    });
+    svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
+
+    // 7. Scroll-reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    revealEls.forEach(el => {
+        new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) entries[0].target.classList.add('visible');
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }).observe(el);
+    });
+</script>
+</body>
+</html>
