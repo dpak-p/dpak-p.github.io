@@ -45,28 +45,6 @@
     <style>
         /* ── BASE ── */
         body { transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; }
-        @media (hover: hover) and (pointer: fine) { body, a, button, .custom-hover { cursor: none !important; } }
-
-        /* ── CURSOR ── */
-        @media (hover: none), (pointer: coarse) {
-            #cursor-glow, #cursor-dot { display: none !important; }
-        }
-        #cursor-glow {
-            position: fixed; top: 0; left: 0; width: 28px; height: 28px;
-            border-radius: 50%; pointer-events: none; z-index: 0;
-            transform: translate3d(-50%, -50%, 0);
-            background: radial-gradient(circle, rgba(6,182,212,0.24) 0%, rgba(6,182,212,0.08) 45%, transparent 75%);
-            mix-blend-mode: screen; opacity: 0.95;
-        }
-        .dark #cursor-glow {
-            background: radial-gradient(circle, rgba(6,182,212,0.28) 0%, rgba(139,92,246,0.12) 45%, transparent 75%);
-        }
-        #cursor-dot {
-            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
-            background: #06b6d4; border-radius: 50%; pointer-events: none; z-index: 9999;
-            transform: translate3d(-50%, -50%, 0);
-            box-shadow: 0 0 10px rgba(6,182,212,0.75);
-        }
 
         /* ── NEON GLOWS ── */
         .text-neon-cyan  { text-shadow: 0 0 10px rgba(6,182,212,0.5),   0 0 20px rgba(6,182,212,0.3); }
@@ -82,7 +60,7 @@
 
         /* ── ORBIT PLANETS ── */
         .orbit-planet {
-            position: absolute; top: 0; left: 0;
+            position: absolute;
             display: flex; align-items: center; justify-content: center;
             border-radius: 50% !important; overflow: hidden;
             text-align: center;
@@ -149,7 +127,7 @@
 
         /* ── TIMELINE ── */
         .tl-dot {
-            position: absolute; top: 0; left: 0; left: -37px; width: 14px; height: 14px;
+            position: absolute; left: -37px; width: 14px; height: 14px;
             border-radius: 50%; border: 3px solid rgba(5,11,20,0.6);
         }
 
@@ -171,7 +149,7 @@
         }
         .repo-card:hover { border-color: rgba(59,130,246,0.4); transform: translateY(-3px); }
         .repo-card::after {
-            content: ''; position: absolute; top: 0; left: 0; bottom: 0; left: 0;
+            content: ''; position: absolute; bottom: 0; left: 0;
             width: 0; height: 2px;
             background: linear-gradient(to right,#3b82f6,#06b6d4);
             transition: width 0.35s;
@@ -202,7 +180,7 @@
             position: relative; overflow: hidden;
         }
         .blog-card:hover { transform: translateY(-4px); border-color: rgba(6,182,212,0.25); }
-        .blog-card::before { content: ''; position: absolute; top: 0; left: 0; top: 0; left: 0; width: 3px; height: 100%; }
+        .blog-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
         .bc-travel::before { background: linear-gradient(to bottom,#10b981,#06b6d4); }
         .bc-science::before { background: linear-gradient(to bottom,#06b6d4,#8b5cf6); }
         .bc-art::before { background: linear-gradient(to bottom,#f59e0b,#ec4899); }
@@ -234,9 +212,7 @@
 
 <body class="bg-sunnySky text-slate-800 dark:bg-midnight dark:text-slate-200">
 
-<!-- ── CURSOR ── -->
-<div id="cursor-glow"></div>
-<div id="cursor-dot"></div>
+
 
 <!-- ── AMBIENT ATMOSPHERIC RIVERS BG ── -->
 <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
@@ -997,13 +973,7 @@ function updateToggle() {
     document.getElementById('heroModeToggle')?.addEventListener('click', toggleTheme);
     document.getElementById('heroModeToggleDesktop')?.addEventListener('click', toggleTheme);
 
-    // 2. Custom cursor
-    const cursorDot = document.getElementById('cursor-dot');
-    const cursorGlow = document.getElementById('cursor-glow');
 
-    window.addEventListener('mousemove', e => {
-        cursorDot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`; cursorGlow.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
-    });
 
     // 3. Timeline expander
     function toggleTimeline() {
@@ -1070,7 +1040,10 @@ function updateToggle() {
     });
 
     (function animate() {
-        time += hoveringNode ? 0.0005 : 0.002;
+        const isMobile = window.innerWidth < 768;
+        const baseSpeed = isMobile ? 0.001 : 0.002;
+        const hoverSpeed = isMobile ? 0.0002 : 0.0005;
+        time += hoveringNode ? hoverSpeed : baseSpeed;
         const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
         const r  = Math.min(window.innerWidth, window.innerHeight) * 0.35;
 
@@ -1078,7 +1051,9 @@ function updateToggle() {
             const angle = time + i * (Math.PI * 2 / nodes.length);
             const tx = cx + Math.cos(angle) * r;
             const ty = cy + Math.sin(angle) * r;
-            node.style.transform = `translate3d(${tx}px, ${ty}px, 0) translate(-50%,-50%)`;
+                        node.style.left = tx + 'px';
+            node.style.top  = ty + 'px';
+            node.style.transform = 'translate(-50%,-50%)';
 
             const path = document.getElementById(`path-${i}`);
             const cp1x = cx + (tx - cx) * 0.5 + Math.sin(time * 3 + i) * 60;
