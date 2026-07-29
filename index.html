@@ -6,103 +6,100 @@
     <title>Deepak Pandidurai | Atmospheric Scientist & Artist</title>
     <meta name="description" content="PhD researcher at IIT Roorkee studying atmospheric rivers and Indian monsoon extremes. Also an artist, photographer, and traveler.">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="tailwind.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&family=Righteous&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        header: ['Righteous', 'cursive'],
-                        bubbly: ['Fredoka', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        midnight: '#050b14',
-                        sunnySky: '#f8fafc',
-                        researchCyan: '#06b6d4',
-                        creationCyan: '#3b82f6',
-                        neonPurple: '#8b5cf6',
-                        neonPink: '#ec4899',
-                        travelGreen: '#10b981',
-                        artAmber: '#f59e0b',
-                    },
-                    animation: {
-                        'spin-slow': 'spin 20s linear infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }
-                }
-            }
-        }
-    </script>
 
     <style>
+        /* ── PALETTE ──────────────────────────────────────────────────
+           Three accents sampled from batlow (F. Crameri, Scientific
+           colour maps v8). Verified min pairwise CIELAB dE: 20+ under
+           protanopia, 26 under deuteranopia/tritanopia in dark mode;
+           13+ in light mode. All accents >= 4.6:1 contrast on their
+           own background. Channels are stored raw so Tailwind opacity
+           modifiers (e.g. border-neonPink/30) keep working.
+           ─────────────────────────────────────────────────────────── */
+        :root{
+            --acc-teal:  20 96 111;    /* batlow t=0.20            */
+            --acc-amber:138 91 16;     /* batlow t=0.77, darkened  */
+            --acc-rose: 158 90 146;    /* batlow t=0.95, darkened  */
+            --hero-bg:  248 250 252;
+        }
+        .dark{
+            --acc-teal:  79 168 184;   /* batlow t=0.20, lifted    */
+            --acc-amber:224 168  95;   /* batlow t=0.80            */
+            --acc-rose: 250 204 250;   /* batlow t=1.00 (endpoint) */
+            --hero-bg:    5  11  20;
+        }
+        /* the batlow ramp itself, as the page's top edge */
+        .ramp{position:fixed;inset:0 0 auto;height:3px;z-index:60;pointer-events:none;
+            background:linear-gradient(90deg,#011959,#10395e,#1b5d6b,#2c6e68,#4a7f55,
+            #6d8845,#94903e,#bc9a45,#e0a85f,#f7bc93,#faccfa);}
+
+        /* ── COLLAPSED WORK-IN-PROGRESS ─────────────────────────────── */
+        .stash{border:1px solid rgb(var(--acc-teal)/.22);border-radius:18px;
+            background:rgb(var(--acc-teal)/.04);overflow:hidden;transition:border-color .3s;}
+        .stash:hover{border-color:rgb(var(--acc-teal)/.4);}
+        .stash>summary{cursor:pointer;list-style:none;padding:18px 22px;
+            font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.09em;
+            text-transform:uppercase;display:flex;align-items:center;gap:14px;
+            color:rgb(var(--acc-teal));}
+        .stash>summary::-webkit-details-marker{display:none}
+        .stash>summary::before{content:'+';font-size:1rem;line-height:1;width:1ch;flex:none}
+        .stash[open]>summary::before{content:'\2212'}
+        .stash>summary span{color:#94a3b8;text-transform:none;letter-spacing:.02em;flex:1}
+        .stash-body{padding:4px 22px 24px}
+        .stash>summary:focus-visible{outline:2px solid rgb(var(--acc-amber));outline-offset:-2px}
+
+        /* ── HERO FLUX ──────────────────────────────────────────────── */
+        #flux{position:absolute;inset:0;width:100%;height:100%;display:block}
+        .flux-cap{position:absolute;left:0;bottom:0;padding:14px 18px;
+            font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+            text-transform:uppercase;color:#94a3b8;opacity:.55;pointer-events:none;z-index:20}
+
+        /* keep the custom cursor off touch devices */
+        @media (hover:hover) and (pointer:fine){ body{cursor:none} }
+        @media not all and (hover:hover){ #cursor-glow,#cursor-dot{display:none} }
+
         /* ── BASE ── */
         body { transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; }
 
+        /* ── CURSOR ── */
+        #cursor-glow {
+            position: fixed; top: 0; left: 0; width: 28px; height: 28px;
+            border-radius: 50%; pointer-events: none; z-index: 0;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgb(var(--acc-teal)/0.24) 0%, rgb(var(--acc-teal)/0.08) 45%, transparent 75%);
+            mix-blend-mode: screen; opacity: 0.95;
+        }
+        .dark #cursor-glow {
+            background: radial-gradient(circle, rgb(var(--acc-teal)/0.28) 0%, rgb(var(--acc-rose)/0.12) 45%, transparent 75%);
+        }
+        #cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background: rgb(var(--acc-teal)); border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgb(var(--acc-teal)/0.75);
+        }
+
         /* ── NEON GLOWS ── */
-        .text-neon-cyan  { text-shadow: 0 0 10px rgba(6,182,212,0.5),   0 0 20px rgba(6,182,212,0.3); }
-        .text-neon-purple{ text-shadow: 0 0 10px rgba(139,92,246,0.5),  0 0 20px rgba(139,92,246,0.3); }
-        .text-neon-pink  { text-shadow: 0 0 10px rgba(236,72,153,0.5),  0 0 20px rgba(236,72,153,0.3); }
-        .text-neon-green { text-shadow: 0 0 10px rgba(16,185,129,0.5),  0 0 15px rgba(16,185,129,0.3); }
-        .text-neon-amber { text-shadow: 0 0 10px rgba(245,158,11,0.5),  0 0 15px rgba(245,158,11,0.3); }
-        .dark .text-neon-cyan  { text-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4, 0 0 40px #06b6d4; }
-        .dark .text-neon-purple{ text-shadow: 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 40px #8b5cf6; }
-        .dark .text-neon-pink  { text-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899, 0 0 30px #ec4899; }
-        .dark .text-neon-green { text-shadow: 0 0 10px #10b981, 0 0 20px #10b981; }
-        .dark .text-neon-amber { text-shadow: 0 0 10px #f59e0b, 0 0 20px #f59e0b; }
-
-        /* ── ORBIT PLANETS ── */
-        .orbit-planet {
-            position: absolute;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50% !important; overflow: hidden;
-            text-align: center;
-            transition: transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.3s;
-            transform-origin: center center;
-        }
-        .orbit-planet:hover {
-            transform: translate(-50%, -50%) scale(1.2) !important;
-            box-shadow: 0 0 40px rgba(6,182,212,0.9); z-index: 50;
-        }
-
-        /* ── BLACK HOLE ── */
-        .black-hole-core {
-            border-radius: 50%;
-            background: radial-gradient(circle, #000 30%, rgba(5,11,20,0.8) 70%, transparent 100%);
-            box-shadow: inset 0 0 50px #000, 0 0 60px rgba(6,182,212,0.6), 0 0 120px rgba(139,92,246,0.4);
-            transition: transform 0.1s ease-out;
-        }
-
-        /* ── ACCRETION DISK ── */
-        .accretion-disk text {
-            font-size: 10px; font-family: 'JetBrains Mono', monospace;
-            font-weight: 700; letter-spacing: 5px;
-            fill: #64748b; text-transform: uppercase;
-        }
-        .dark .accretion-disk text { fill: #94a3b8; }
+        .text-neon-cyan  { text-shadow: 0 0 10px rgb(var(--acc-teal)/0.5),   0 0 20px rgb(var(--acc-teal)/0.3); }
+        .text-neon-purple{ text-shadow: 0 0 10px rgb(var(--acc-rose)/0.5),  0 0 20px rgb(var(--acc-rose)/0.3); }
+        .text-neon-pink  { text-shadow: 0 0 10px rgb(var(--acc-rose)/0.5),  0 0 20px rgb(var(--acc-rose)/0.3); }
+        .text-neon-green { text-shadow: 0 0 10px rgb(var(--acc-amber)/0.5),  0 0 15px rgb(var(--acc-amber)/0.3); }
+        .text-neon-amber { text-shadow: 0 0 10px rgb(var(--acc-amber)/0.5),  0 0 15px rgb(var(--acc-amber)/0.3); }
+        .dark .text-neon-cyan  { text-shadow: 0 0 10px rgb(var(--acc-teal)), 0 0 20px rgb(var(--acc-teal)), 0 0 40px rgb(var(--acc-teal)); }
+        .dark .text-neon-purple{ text-shadow: 0 0 10px rgb(var(--acc-rose)), 0 0 20px rgb(var(--acc-rose)), 0 0 40px rgb(var(--acc-rose)); }
+        .dark .text-neon-pink  { text-shadow: 0 0 10px rgb(var(--acc-rose)), 0 0 20px rgb(var(--acc-rose)), 0 0 30px rgb(var(--acc-rose)); }
+        .dark .text-neon-green { text-shadow: 0 0 10px rgb(var(--acc-amber)), 0 0 20px rgb(var(--acc-amber)); }
+        .dark .text-neon-amber { text-shadow: 0 0 10px rgb(var(--acc-amber)), 0 0 20px rgb(var(--acc-amber)); }
 
         /* ── AMBIENT FLOW ── */
         @keyframes vaporFlow { 0% { stroke-dashoffset: 2000; } 100% { stroke-dashoffset: 0; } }
         .animate-river { stroke-dasharray: 1000; animation: vaporFlow 45s linear infinite; }
-
-        /* ── STORM RINGS ── */
-        @keyframes expandRing {
-            0%   { transform: translate(-50%,-50%) scale(0.85); opacity: 0.5; }
-            100% { transform: translate(-50%,-50%) scale(2.0);  opacity: 0; }
-        }
-        .storm-ring {
-            position: absolute; top: 0; left: 0; border-radius: 50%;
-            border: 1px solid rgba(6,182,212,0.25);
-            pointer-events: none;
-            animation: expandRing 4s ease-out infinite;
-        }
 
         /* ── EXPANDABLE ── */
         .expandable-content { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s ease-out; }
@@ -138,7 +135,7 @@
             background: rgba(255,255,255,0.04);
             transition: all 0.3s;
         }
-        .pub-card:hover { background: rgba(6,182,212,0.05); border-left-color: #06b6d4; }
+        .pub-card:hover { background: rgb(var(--acc-teal)/0.05); border-left-color: rgb(var(--acc-teal)); }
 
         /* ── REPO CARDS ── */
         .repo-card {
@@ -147,11 +144,11 @@
             border-radius: 14px; padding: 22px;
             transition: all 0.3s; position: relative; overflow: hidden; display: block;
         }
-        .repo-card:hover { border-color: rgba(59,130,246,0.4); transform: translateY(-3px); }
+        .repo-card:hover { border-color: rgb(var(--acc-teal)/0.4); transform: translateY(-3px); }
         .repo-card::after {
             content: ''; position: absolute; bottom: 0; left: 0;
             width: 0; height: 2px;
-            background: linear-gradient(to right,#3b82f6,#06b6d4);
+            background: linear-gradient(to right,rgb(var(--acc-teal)),rgb(var(--acc-teal)));
             transition: width 0.35s;
         }
         .repo-card:hover::after { width: 100%; }
@@ -165,13 +162,13 @@
         .g-tall { grid-row: span 2; }
         .g-wide { grid-column: span 2; }
         .gallery-slot {
-            background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.08));
-            border: 1px dashed rgba(6,182,212,0.25);
+            background: linear-gradient(135deg, rgb(var(--acc-teal)/0.08), rgb(var(--acc-rose)/0.08));
+            border: 1px dashed rgb(var(--acc-teal)/0.25);
             border-radius: 14px; overflow: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: all 0.3s; text-align: center; padding: 16px;
         }
-        .gallery-slot:hover { border-color: rgba(6,182,212,0.5); background: linear-gradient(135deg,rgba(6,182,212,0.15),rgba(139,92,246,0.15)); }
+        .gallery-slot:hover { border-color: rgb(var(--acc-teal)/0.5); background: linear-gradient(135deg,rgb(var(--acc-teal)/0.15),rgb(var(--acc-rose)/0.15)); }
 
         /* ── BLOG CARDS ── */
         .blog-card {
@@ -179,11 +176,11 @@
             border-radius: 18px; padding: 28px; transition: all 0.3s;
             position: relative; overflow: hidden;
         }
-        .blog-card:hover { transform: translateY(-4px); border-color: rgba(6,182,212,0.25); }
+        .blog-card:hover { transform: translateY(-4px); border-color: rgb(var(--acc-teal)/0.25); }
         .blog-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
-        .bc-travel::before { background: linear-gradient(to bottom,#10b981,#06b6d4); }
-        .bc-science::before { background: linear-gradient(to bottom,#06b6d4,#8b5cf6); }
-        .bc-art::before { background: linear-gradient(to bottom,#f59e0b,#ec4899); }
+        .bc-travel::before { background: linear-gradient(to bottom,rgb(var(--acc-amber)),rgb(var(--acc-teal))); }
+        .bc-science::before { background: linear-gradient(to bottom,rgb(var(--acc-teal)),rgb(var(--acc-rose))); }
+        .bc-art::before { background: linear-gradient(to bottom,rgb(var(--acc-amber)),rgb(var(--acc-rose))); }
 
         /* ── GLASS CARDS (from original) ── */
         .glass-card {
@@ -193,7 +190,7 @@
         .dark .glass-card {
             background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05);
         }
-        .glass-card:hover { border-color: rgba(6,182,212,0.4); }
+        .glass-card:hover { border-color: rgb(var(--acc-teal)/0.4); }
 
         /* ── DATA CARD HOVER ── */
         .data-card { transition: transform 0.3s, box-shadow 0.3s; }
@@ -201,22 +198,26 @@
 
         /* ── PHOTO SLOT ── */
         .photo-slot {
-            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
-            border: 1.5px dashed rgba(6,182,212,0.3); border-radius: 20px;
+            background: linear-gradient(135deg, rgb(var(--acc-teal)/0.1), rgb(var(--acc-rose)/0.1));
+            border: 1.5px dashed rgb(var(--acc-teal)/0.3); border-radius: 20px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; padding: 32px; transition: all 0.3s;
         }
-        .photo-slot:hover { border-color: rgba(6,182,212,0.5); }
+        .photo-slot:hover { border-color: rgb(var(--acc-teal)/0.5); }
     </style>
 </head>
 
 <body class="bg-sunnySky text-slate-800 dark:bg-midnight dark:text-slate-200">
 
+<div class="ramp" aria-hidden="true"></div>
 
+<!-- ── CURSOR ── -->
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
 
 <!-- ── AMBIENT ATMOSPHERIC RIVERS BG ── -->
 <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
-    <svg aria-hidden="true" class="absolute top-0 left-0 w-full h-full opacity-30 dark:opacity-50" preserveAspectRatio="none" viewBox="0 0 1440 1000" fill="none">
+    <svg class="absolute top-0 left-0 w-full h-full opacity-30 dark:opacity-50" preserveAspectRatio="none" viewBox="0 0 1440 1000" fill="none">
         <path d="M 1500,-100 Q 1100,400 600,600 T 100,1400" stroke-width="7" stroke-linecap="round" class="animate-river stroke-cyan-300 dark:stroke-cyan-500 blur-[2px]"/>
         <path d="M 1600,-50 Q 1050,450 550,550 T 180,1350" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 15" class="animate-river stroke-purple-300 dark:stroke-purple-500 blur-[1px]"/>
         <path d="M -100,200 Q 400,100 800,300 T 1600,500" stroke-width="2" stroke-linecap="round" class="animate-river stroke-cyan-200 dark:stroke-cyan-700 opacity-60" style="animation-delay:-15s"/>
@@ -238,10 +239,10 @@
             <a href="#travel"       class="custom-hover hover:text-travelGreen   transition-colors">Blog</a>
             <a href="#contact"      class="custom-hover hover:text-artAmber      transition-colors">Contact</a>
         </div>
-        <button id="modeToggle" aria-label="Toggle Dark Mode" class="custom-hover w-16 h-8 rounded-full bg-slate-200 dark:bg-slate-800 p-1 flex items-center transition-all duration-300 shadow-inner border border-black/5 dark:border-white/5">
+        <button id="modeToggle" class="custom-hover w-16 h-8 rounded-full bg-slate-200 dark:bg-slate-800 p-1 flex items-center transition-all duration-300 shadow-inner border border-black/5 dark:border-white/5">
             <div id="toggleKnob" class="w-6 h-6 rounded-full bg-researchCyan dark:bg-neonPurple shadow-md transform transition-transform duration-300 flex items-center justify-center">
-                <svg aria-hidden="true" id="sunIcon"  class="w-3.5 h-3.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
-                <svg aria-hidden="true" id="moonIcon" class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                <svg id="sunIcon"  class="w-3.5 h-3.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
+                <svg id="moonIcon" class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
             </div>
         </button>
     </div>
@@ -250,95 +251,41 @@
 <!-- ════════════════════════════════════════
      HERO — STORM EYE + ORBITAL SYSTEM
 ═════════════════════════════════════════ -->
-<header id="hero" class="relative w-full h-screen flex items-center justify-center overflow-hidden z-10">
+<header id="hero" class="relative w-full h-[100svh] flex items-center justify-center overflow-hidden z-10">
 
-    <!-- Hero Theme Toggle (visible before scrolling) -->
-    <button id="heroModeToggle" aria-label="Toggle Dark Mode" class="absolute top-6 right-6 z-50 custom-hover w-14 h-7 rounded-full bg-slate-200 dark:bg-slate-800 p-1 flex items-center transition-all duration-300 shadow-inner border border-black/5 dark:border-white/5 opacity-80 hover:opacity-100 md:hidden">
-        <div id="heroToggleKnob" class="w-5 h-5 rounded-full bg-researchCyan dark:bg-neonPurple shadow-md transform transition-transform duration-300 flex items-center justify-center">
-            <svg id="heroSunIcon" class="w-3 h-3 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
-            <svg id="heroMoonIcon" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
-        </div>
-    </button>
+    <canvas id="flux" aria-hidden="true"></canvas>
+    <div class="absolute inset-0 pointer-events-none z-10" style="background:linear-gradient(180deg,rgb(var(--hero-bg)/.74) 0%,rgb(var(--hero-bg)/.16) 38%,rgb(var(--hero-bg)/.84) 86%,rgb(var(--hero-bg)) 100%)"></div>
 
-    <button id="heroModeToggleDesktop" aria-label="Toggle Dark Mode" class="hidden md:flex absolute top-6 right-16 z-50 custom-hover w-16 h-8 rounded-full bg-slate-200 dark:bg-slate-800 p-1 items-center transition-all duration-300 shadow-inner border border-black/5 dark:border-white/5 opacity-60 hover:opacity-100">
-        <div id="heroToggleKnobDesktop" class="w-6 h-6 rounded-full bg-researchCyan dark:bg-neonPurple shadow-md transform transition-transform duration-300 flex items-center justify-center">
-            <svg id="heroSunIconDesktop" class="w-3.5 h-3.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
-            <svg id="heroMoonIconDesktop" class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
-        </div>
-    </button>
+    <div class="relative z-20 flex flex-col items-center text-center px-6">
+        <p class="font-mono text-[9px] sm:text-[11px] tracking-[0.3em] uppercase text-slate-500 dark:text-slate-400 mb-7 max-w-lg leading-relaxed">
+            &#9670; Atmospheric Rivers &#9670; Indian Monsoon &#9670; IIT Roorkee &#9670; Science &#9670; Art &#9670;
+        </p>
 
-
-    <svg aria-hidden="true" id="connection-svg" class="absolute inset-0 w-full h-full pointer-events-none z-0" fill="none"></svg>
-
-    <!-- Orbit Planets -->
-    <a href="#research" class="orbit-planet custom-hover z-20 w-[64px] h-[64px] md:w-[104px] md:h-[104px] glass-card shadow-[0_0_16px_rgba(6,182,212,0.2)]">
-        <div class="flex flex-col items-center gap-1">
-            <span class="text-xl md:text-2xl">🌧️</span>
-            <span class="font-bubbly font-bold text-[8px] md:text-xs text-slate-800 dark:text-white">Research</span>
-        </div>
-    </a>
-    <a href="#publications" class="orbit-planet custom-hover z-20 w-[72px] h-[72px] md:w-[116px] md:h-[116px] glass-card shadow-[0_0_16px_rgba(139,92,246,0.2)]">
-        <div class="flex flex-col items-center gap-1">
-            <span class="text-xl md:text-2xl">📄</span>
-            <span class="font-bubbly font-bold text-[8px] md:text-xs text-slate-800 dark:text-white">Papers</span>
-        </div>
-    </a>
-    <a href="#code" class="orbit-planet custom-hover z-20 w-[60px] h-[60px] md:w-[100px] md:h-[100px] glass-card shadow-[0_0_16px_rgba(59,130,246,0.2)]">
-        <div class="flex flex-col items-center gap-1">
-            <span class="text-xl md:text-2xl">💻</span>
-            <span class="font-bubbly font-bold text-[8px] md:text-xs text-slate-800 dark:text-white">Code</span>
-        </div>
-    </a>
-    <a href="#gallery" class="orbit-planet custom-hover z-20 w-[64px] h-[64px] md:w-[104px] md:h-[104px] glass-card shadow-[0_0_16px_rgba(236,72,153,0.2)]">
-        <div class="flex flex-col items-center gap-1">
-            <span class="text-xl md:text-2xl">🎨</span>
-            <span class="font-bubbly font-bold text-[8px] md:text-xs text-slate-800 dark:text-white">Gallery</span>
-        </div>
-    </a>
-    <a href="#travel" class="orbit-planet custom-hover z-20 w-[60px] h-[60px] md:w-[100px] md:h-[100px] glass-card shadow-[0_0_16px_rgba(16,185,129,0.2)]">
-        <div class="flex flex-col items-center gap-1">
-            <span class="text-xl md:text-2xl">✈️</span>
-            <span class="font-bubbly font-bold text-[8px] md:text-xs text-slate-800 dark:text-white">Travel</span>
-        </div>
-    </a>
-
-    <!-- Expanding storm rings -->
-    <div class="storm-ring w-72 h-72 absolute left-1/2 top-1/2" style="animation-delay:0s"></div>
-    <div class="storm-ring w-72 h-72 absolute left-1/2 top-1/2" style="animation-delay:1.33s"></div>
-    <div class="storm-ring w-72 h-72 absolute left-1/2 top-1/2" style="animation-delay:2.66s"></div>
-
-    <!-- Center: black hole + accretion disk + D.P. -->
-    <div id="center-node" class="relative z-20 flex items-center justify-center pointer-events-none will-change-transform">
-
-        <!-- Accretion / isobar disk -->
-        <svg aria-hidden="true" class="absolute w-[300px] h-[300px] md:w-[440px] md:h-[440px] animate-spin-slow accretion-disk z-10" viewBox="0 0 300 300" style="transform:rotateX(62deg) scaleY(0.88)">
-            <path id="text-curve" d="M 150,150 m -118,0 a 118,118 0 1,1 236,0 a 118,118 0 1,1 -236,0" fill="transparent"/>
-            <text><textPath href="#text-curve" startOffset="0%">◆ ATMOSPHERIC RIVERS ◆ INDIAN MONSOON ◆ IIT ROORKEE ◆ SCIENCE ◆ ART ◆&nbsp;</textPath></text>
-        </svg>
-
-        <!-- Core -->
-        <div class="black-hole-core w-60 h-60 absolute z-20 animate-pulse-slow"></div>
-
-        <!-- D.P. Typography (from original, preserved) -->
-        <h1 class="relative z-30 font-header text-8xl md:text-9xl tracking-tight leading-none flex items-center">
-            <span class="text-slate-900 dark:text-white text-neon-cyan">D</span>
-            <span class="text-researchCyan">.</span>
-            <span class="text-slate-900 dark:text-white text-neon-purple">P</span>
-            <span class="text-neonPurple">.</span>
+        <h1 class="font-header text-7xl sm:text-8xl md:text-9xl tracking-tight leading-none flex items-center justify-center">
+            <span class="text-slate-900 dark:text-white text-neon-cyan">D</span><span class="text-researchCyan">.</span><span class="text-slate-900 dark:text-white text-neon-purple">P</span><span class="text-neonPurple">.</span>
         </h1>
+
+        <nav class="mt-9 flex flex-wrap justify-center gap-x-6 gap-y-3 font-bubbly text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">
+            <a href="#research"     class="custom-hover hover:text-researchCyan transition-colors">Research</a>
+            <a href="#publications" class="custom-hover hover:text-neonPurple   transition-colors">Papers</a>
+            <a href="#code"         class="custom-hover hover:text-creationCyan transition-colors">Code</a>
+            <a href="#gallery"      class="custom-hover hover:text-neonPink     transition-colors">Gallery</a>
+            <a href="#travel"       class="custom-hover hover:text-travelGreen  transition-colors">Travel</a>
+        </nav>
     </div>
 
-    <!-- Scroll cue -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce z-20 pointer-events-none opacity-40">
+    <p class="flux-cap">fig. &mdash; moisture flux streamlines, illustrative</p>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce z-20 pointer-events-none opacity-40">
         <span class="font-bubbly text-xs tracking-widest uppercase mb-2 text-slate-500 dark:text-slate-400">Descend</span>
-        <svg aria-hidden="true" class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+        <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
     </div>
 </header>
 
 <!-- ════════════════════════════════════════
      CONTENT WRAPPER (glassmorphism ramp)
 ═════════════════════════════════════════ -->
-<div class="relative z-20 bg-sunnySky/80 dark:bg-midnight/80 backdrop-blur-3xl border-t border-black/5 dark:border-white/5 rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_-20px_50px_rgba(6,182,212,0.04)]">
+<div class="relative z-20 bg-sunnySky/80 dark:bg-midnight/80 backdrop-blur-3xl border-t border-black/5 dark:border-white/5 rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_-20px_50px_rgb(var(--acc-teal)/0.04)]">
 
 <!-- ════════════════════════════════════════
      ABOUT
@@ -415,19 +362,19 @@
             <!-- links -->
             <div class="flex flex-wrap gap-5 pt-1">
                 <a href="mailto:deepak_p@hy.iitr.ac.in" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-researchCyan hover:text-cyan-400 transition-colors">
-                    <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     Email
                 </a>
-                <a aria-label="LinkedIn" href="https://linkedin.com/in/deepak-p-0523ba184" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-neonPurple hover:text-purple-400 transition-colors">
-                    <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                <a href="https://linkedin.com/in/deepak-p-0523ba184" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-neonPurple hover:text-purple-400 transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     LinkedIn
                 </a>
                 <a href="https://github.com/dpak-p" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-slate-500 hover:text-slate-700 dark:hover:text-white transition-colors">
-                    <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
                 <a href="#" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-artAmber hover:text-amber-400 transition-colors">
-                    <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                     Google Scholar
                 </a>
             </div>
@@ -436,7 +383,7 @@
 </section>
 
 <!-- ISOBAR DIVIDER -->
-<div class="isobar"><svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,24 C360,8 720,40 1080,24 C1260,16 1380,28 1440,24" stroke="#06b6d4" stroke-width="1.5" fill="none"/><path d="M0,32 C360,16 720,48 1080,32 C1260,24 1380,36 1440,32" stroke="#8b5cf6" stroke-width="0.8" fill="none" stroke-dasharray="6 4"/></svg></div>
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,24 C360,8 720,40 1080,24 C1260,16 1380,28 1440,24" stroke="currentColor" class="text-researchCyan" stroke-width="1.5" fill="none"/><path d="M0,32 C360,16 720,48 1080,32 C1260,24 1380,36 1440,32" stroke="currentColor" class="text-neonPink" stroke-width="0.8" fill="none" stroke-dasharray="6 4"/></svg></div>
 
 <!-- ════════════════════════════════════════
      RESEARCH & EXPERIENCE
@@ -480,9 +427,9 @@
     <div class="reveal">
         <h3 class="font-header text-2xl text-slate-900 dark:text-white mb-8 flex items-center gap-3">
             <span class="text-researchCyan">▸</span> Career Timeline
-            <button id="timeline-btn" aria-label="Toggle Timeline" onclick="toggleTimeline()" class="custom-hover ml-auto flex items-center gap-2 text-sm font-bubbly text-slate-400 hover:text-researchCyan transition-colors">
+            <button id="timeline-btn" onclick="toggleTimeline()" class="custom-hover ml-auto flex items-center gap-2 text-sm font-bubbly text-slate-400 hover:text-researchCyan transition-colors">
                 <span id="timeline-btn-text">Show full history</span>
-                <svg aria-hidden="true" id="timeline-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <svg id="timeline-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </button>
         </h3>
 
@@ -491,7 +438,7 @@
 
             <!-- PhD -->
             <div class="relative group custom-hover">
-                <div class="tl-dot bg-researchCyan shadow-[0_0_14px_#06b6d4]" style="border-color:rgba(5,11,20,0.7)"></div>
+                <div class="tl-dot bg-researchCyan shadow-[0_0_14px_rgb(var(--acc-teal))]" style="border-color:rgba(5,11,20,0.7)"></div>
                 <div class="glass-card p-5 group-hover:border-researchCyan/50 shadow-md">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                         <span class="font-bubbly text-xs bg-researchCyan/10 text-researchCyan px-3 py-1 rounded-full border border-researchCyan/20">Jan 2024 — Present</span>
@@ -512,7 +459,7 @@
 
             <!-- JRF -->
             <div class="relative group custom-hover">
-                <div class="tl-dot bg-neonPurple shadow-[0_0_14px_#8b5cf6]" style="border-color:rgba(5,11,20,0.7)"></div>
+                <div class="tl-dot bg-neonPurple shadow-[0_0_14px_rgb(var(--acc-rose))]" style="border-color:rgba(5,11,20,0.7)"></div>
                 <div class="glass-card p-5 group-hover:border-neonPurple/50 shadow-md">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                         <span class="font-bubbly text-xs bg-neonPurple/10 text-neonPurple px-3 py-1 rounded-full border border-neonPurple/20">Aug 2022 — Dec 2023</span>
@@ -535,7 +482,7 @@
 
                     <!-- Masters Thesis -->
                     <div class="relative group custom-hover">
-                        <div class="tl-dot bg-creationCyan shadow-[0_0_12px_#3b82f6]" style="border-color:rgba(5,11,20,0.7)"></div>
+                        <div class="tl-dot bg-creationCyan shadow-[0_0_12px_rgb(var(--acc-teal))]" style="border-color:rgba(5,11,20,0.7)"></div>
                         <div class="glass-card p-5 group-hover:border-creationCyan/50 shadow-md">
                             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                                 <span class="font-bubbly text-xs bg-creationCyan/10 text-creationCyan px-3 py-1 rounded-full border border-creationCyan/20">2022 · Masters Thesis</span>
@@ -551,7 +498,7 @@
 
                     <!-- MSc -->
                     <div class="relative group custom-hover">
-                        <div class="tl-dot bg-creationCyan shadow-[0_0_12px_#3b82f6]" style="border-color:rgba(5,11,20,0.7)"></div>
+                        <div class="tl-dot bg-creationCyan shadow-[0_0_12px_rgb(var(--acc-teal))]" style="border-color:rgba(5,11,20,0.7)"></div>
                         <div class="glass-card p-5 group-hover:border-creationCyan/50 shadow-md">
                             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                                 <span class="font-bubbly text-xs bg-creationCyan/10 text-creationCyan px-3 py-1 rounded-full border border-creationCyan/20">2020 — 2022</span>
@@ -564,7 +511,7 @@
 
                     <!-- BSc -->
                     <div class="relative group custom-hover">
-                        <div class="tl-dot bg-neonPink shadow-[0_0_12px_#ec4899]" style="border-color:rgba(5,11,20,0.7)"></div>
+                        <div class="tl-dot bg-neonPink shadow-[0_0_12px_rgb(var(--acc-rose))]" style="border-color:rgba(5,11,20,0.7)"></div>
                         <div class="glass-card p-5 group-hover:border-neonPink/50 shadow-md">
                             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                                 <span class="font-bubbly text-xs bg-neonPink/10 text-neonPink px-3 py-1 rounded-full border border-neonPink/20">2016 — 2019</span>
@@ -626,7 +573,7 @@
 </section>
 
 <!-- ISOBAR DIVIDER -->
-<div class="isobar"><svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,12 C480,36 960,0 1440,24" stroke="#8b5cf6" stroke-width="1.5" fill="none"/><path d="M0,36 C480,12 960,48 1440,12" stroke="#ec4899" stroke-width="0.8" fill="none" stroke-dasharray="7 5"/></svg></div>
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,12 C480,36 960,0 1440,24" stroke="currentColor" class="text-neonPink" stroke-width="1.5" fill="none"/><path d="M0,36 C480,12 960,48 1440,12" stroke="currentColor" class="text-neonPink" stroke-width="0.8" fill="none" stroke-dasharray="7 5"/></svg></div>
 
 <!-- ════════════════════════════════════════
      PUBLICATIONS
@@ -641,7 +588,7 @@
     <!-- Journal papers (original card style, all 4 shown) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
 
-        <div class="glass-card p-7 hover:border-neonPurple/50 hover:shadow-[0_0_28px_rgba(139,92,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+        <div class="glass-card p-7 hover:border-neonPurple/50 hover:shadow-[0_0_28px_rgb(var(--acc-rose)/0.1)] custom-hover flex flex-col justify-between shadow-md">
             <div>
                 <span class="inline-block px-3 py-1 bg-neonPurple/10 text-neonPurple font-bubbly text-xs rounded-full mb-4 border border-neonPurple/20">2026 · Q1 Journal</span>
                 <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Sequential Moisture Dynamics Driving Multi-Day Flood-Producing Rainfall Across India</h3>
@@ -651,7 +598,7 @@
             <a href="https://doi.org/10.1002/joc.70462" target="_blank" class="custom-hover self-start px-4 py-2 rounded-full border border-neonPurple text-neonPurple text-xs font-semibold hover:bg-neonPurple hover:text-white transition-colors font-mono">doi:10.1002/joc.70462 ↗</a>
         </div>
 
-        <div class="glass-card p-7 hover:border-neonPurple/50 hover:shadow-[0_0_28px_rgba(139,92,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+        <div class="glass-card p-7 hover:border-neonPurple/50 hover:shadow-[0_0_28px_rgb(var(--acc-rose)/0.1)] custom-hover flex flex-col justify-between shadow-md">
             <div>
                 <span class="inline-block px-3 py-1 bg-neonPurple/10 text-neonPurple font-bubbly text-xs rounded-full mb-4 border border-neonPurple/20">2025 · Q1 · AMS</span>
                 <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Interaction of the Monsoon Trough and Western Disturbance Ignites Multiday Extreme Rainfall Event in July 2023 over North India</h3>
@@ -662,7 +609,7 @@
         </div>
 
         <!-- Expandable: 2 more -->
-        <div id="shown-pubs-2" class="glass-card p-7 hover:border-creationCyan/50 hover:shadow-[0_0_28px_rgba(59,130,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+        <div id="shown-pubs-2" class="glass-card p-7 hover:border-creationCyan/50 hover:shadow-[0_0_28px_rgb(var(--acc-teal)/0.1)] custom-hover flex flex-col justify-between shadow-md">
             <div>
                 <span class="inline-block px-3 py-1 bg-creationCyan/10 text-creationCyan font-bubbly text-xs rounded-full mb-4 border border-creationCyan/20">2025 · Q1 · Springer</span>
                 <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Widespread Monsoon Extreme Rainfall Events over Central Indian Region: Influence of Dynamics and Thermodynamics</h3>
@@ -672,7 +619,7 @@
             <a href="https://doi.org/10.1007/s00382-025-07641-8" target="_blank" class="custom-hover self-start px-4 py-2 rounded-full border border-creationCyan text-creationCyan text-xs font-semibold hover:bg-creationCyan hover:text-white transition-colors font-mono">doi:10.1007/s00382-025-07641-8 ↗</a>
         </div>
 
-        <div class="glass-card p-7 hover:border-creationCyan/50 hover:shadow-[0_0_28px_rgba(59,130,246,0.1)] custom-hover flex flex-col justify-between shadow-md">
+        <div class="glass-card p-7 hover:border-creationCyan/50 hover:shadow-[0_0_28px_rgb(var(--acc-teal)/0.1)] custom-hover flex flex-col justify-between shadow-md">
             <div>
                 <span class="inline-block px-3 py-1 bg-creationCyan/10 text-creationCyan font-bubbly text-xs rounded-full mb-4 border border-creationCyan/20">2024 · Q1 · Springer</span>
                 <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">A Comparative Assessment of Meteorological Drought Characteristics in Agro-Climatic Zones of Rajasthan (Arid) and Tamil Nadu (Humid), India</h3>
@@ -685,9 +632,9 @@
 
     <!-- Conference papers (collapsible) -->
     <div class="flex justify-center mt-8 reveal">
-        <button id="pubs-expander" aria-label="Toggle Publications" onclick="togglePubs()" class="custom-hover px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-neonPurple hover:border-neonPurple transition-colors flex items-center gap-2">
+        <button id="pubs-expander" onclick="togglePubs()" class="custom-hover px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-neonPurple hover:border-neonPurple transition-colors flex items-center gap-2">
             <span id="pubs-btn-text">Show Conference &amp; Symposium Presentations (6)</span>
-            <svg aria-hidden="true" id="pubs-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <svg id="pubs-arrow" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
     </div>
 
@@ -706,7 +653,7 @@
 </section>
 
 <!-- ISOBAR DIVIDER -->
-<div class="isobar"><svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,36 C480,8 960,48 1440,16" stroke="#3b82f6" stroke-width="1.5" fill="none"/><path d="M0,16 C480,44 960,4 1440,36" stroke="#06b6d4" stroke-width="0.6" fill="none" stroke-dasharray="8 6"/></svg></div>
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,36 C480,8 960,48 1440,16" stroke="currentColor" class="text-researchCyan" stroke-width="1.5" fill="none"/><path d="M0,16 C480,44 960,4 1440,36" stroke="currentColor" class="text-researchCyan" stroke-width="0.6" fill="none" stroke-dasharray="8 6"/></svg></div>
 
 <!-- ════════════════════════════════════════
      CODE
@@ -718,11 +665,14 @@
         <p class="text-slate-500 dark:text-slate-400 text-sm mt-3 max-w-xl">Analysis pipelines, model configs, and research tools — available on GitHub.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
+    <details class="stash reveal">
+        <summary>Repositories in preparation (3)<span>HYSPLIT trajectory tools, WRF run scripts, CDO/QGIS pipelines</span></summary>
+        <div class="stash-body">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 reveal">
 
         <a href="https://github.com/dpak-p" target="_blank" class="repo-card custom-hover">
             <div class="flex items-start justify-between mb-3">
-                <svg aria-hidden="true" class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 <span class="font-mono text-[10px] text-slate-400">Python</span>
             </div>
             <h4 class="font-header text-sm text-slate-800 dark:text-white mb-2">[Repo Syncing...]</h4>
@@ -732,7 +682,7 @@
 
         <a href="https://github.com/dpak-p" target="_blank" class="repo-card custom-hover">
             <div class="flex items-start justify-between mb-3">
-                <svg aria-hidden="true" class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 <span class="font-mono text-[10px] text-slate-400">Python / BASH / NCL</span>
             </div>
             <h4 class="font-header text-sm text-slate-800 dark:text-white mb-2">[Compiling Models...]</h4>
@@ -742,7 +692,7 @@
 
         <a href="https://github.com/dpak-p" target="_blank" class="repo-card custom-hover">
             <div class="flex items-start justify-between mb-3">
-                <svg aria-hidden="true" class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <svg class="w-5 h-5 text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 <span class="font-mono text-[10px] text-slate-400">CDO / Python</span>
             </div>
             <h4 class="font-header text-sm text-slate-800 dark:text-white mb-2">[Data Crunching...]</h4>
@@ -751,7 +701,10 @@
         </a>
     </div>
 
-    <div class="mt-6 reveal">
+    
+        </div>
+    </details>
+<div class="mt-6 reveal">
         <a href="https://github.com/dpak-p" target="_blank" class="custom-hover inline-flex items-center gap-2 font-bubbly font-semibold text-sm text-creationCyan hover:text-blue-400 transition-colors">
             View all repositories on GitHub ↗
         </a>
@@ -759,33 +712,22 @@
 </section>
 
 <!-- ISOBAR DIVIDER -->
-<div class="isobar"><svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,8 C360,36 720,4 1080,32 C1260,44 1380,24 1440,36" stroke="#ec4899" stroke-width="1.5" fill="none"/><path d="M0,40 C360,12 720,44 1080,16 C1260,4 1380,24 1440,12" stroke="#f59e0b" stroke-width="0.7" fill="none" stroke-dasharray="6 5"/></svg></div>
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,8 C360,36 720,4 1080,32 C1260,44 1380,24 1440,36" stroke="currentColor" class="text-neonPink" stroke-width="1.5" fill="none"/><path d="M0,40 C360,12 720,44 1080,16 C1260,4 1380,24 1440,12" stroke="currentColor" class="text-artAmber" stroke-width="0.7" fill="none" stroke-dasharray="6 5"/></svg></div>
 
 <!-- ════════════════════════════════════════
      GALLERY: ART + PHOTOGRAPHY
 ═════════════════════════════════════════ -->
-
-<!-- ════════════════════════════════════════
-     PERSONAL SECTION WRAPPER
-═════════════════════════════════════════ -->
-<div class="relative bg-gradient-to-b from-transparent via-pink-50/30 to-emerald-50/30 dark:via-pink-900/5 dark:to-emerald-900/5 border-t border-black/5 dark:border-white/5">
-
-    <!-- Subtle Section Divider -->
-    <div class="w-full text-center py-12 opacity-50 select-none">
-        <div class="inline-flex items-center gap-4">
-            <div class="h-px w-16 bg-gradient-to-r from-transparent to-slate-400"></div>
-            <span class="font-mono text-[10px] tracking-[0.3em] uppercase text-slate-500">The Canvas Mind</span>
-            <div class="h-px w-16 bg-gradient-to-l from-transparent to-slate-400"></div>
-        </div>
-    </div>
-<section id="gallery" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 ">
+<section id="gallery" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
     <div class="mb-14 reveal">
         <span class="font-bubbly text-sm text-neonPink tracking-widest uppercase block mb-2">Art &amp; Photography</span>
         <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white"> <span class="text-neonPink text-neon-pink">Art </span>is also science.</h2>
         <p class="text-slate-500 dark:text-slate-400 text-sm mt-3 max-w-xl">Sketches from the field. Photographs from the road. Digital illustrations from quiet nights.</p>
     </div>
 
-    <div class="gallery-grid reveal">
+    <details class="stash reveal">
+        <summary>Portfolio being scanned (8 pieces)<span>Travel sketches, photography, digital illustration</span></summary>
+        <div class="stash-body">
+<div class="gallery-grid reveal">
         <div class="g-tall gallery-slot"><div class="text-4xl mb-2">✏️</div><p class="font-mono text-xs text-slate-500">Travel Sketch</p><p class="font-mono text-[10px] text-slate-400 mt-1">Waiting for the ink to dry...</p></div>
         <div class="gallery-slot"><div class="text-4xl mb-2">📸</div><p class="font-mono text-xs text-slate-500">Photography</p><p class="font-mono text-[10px] text-slate-400 mt-1">Developing in the darkroom...</p></div>
         <div class="g-wide gallery-slot"><div class="text-4xl mb-2">🌄</div><p class="font-mono text-xs text-slate-500">Landscape</p><p class="font-mono text-[10px] text-slate-400 mt-1">Rendering the horizon...</p></div>
@@ -796,7 +738,10 @@
         <div class="gallery-slot"><div class="text-4xl mb-2">🏔️</div><p class="font-mono text-xs text-slate-500">Mountain</p><p class="font-mono text-[10px] text-slate-400 mt-1">Scaling the summit...</p></div>
     </div>
 
-    <div class="mt-8 flex flex-wrap gap-3 reveal">
+    
+        </div>
+    </details>
+<div class="mt-8 flex flex-wrap gap-3 reveal">
         <div class="px-4 py-2 rounded-full border border-neonPink/30 bg-pink-50 dark:bg-pink-900/10 font-mono text-xs text-neonPink">Travel Sketching</div>
         <div class="px-4 py-2 rounded-full border border-artAmber/30 bg-amber-50 dark:bg-amber-900/10 font-mono text-xs text-artAmber">Photography</div>
         <div class="px-4 py-2 rounded-full border border-neonPurple/30 bg-purple-50 dark:bg-purple-900/10 font-mono text-xs text-neonPurple">Digital Design</div>
@@ -804,19 +749,22 @@
 </section>
 
 <!-- ISOBAR DIVIDER -->
-<div class="isobar"><svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,32 C480,4 960,44 1440,12" stroke="#10b981" stroke-width="1.5" fill="none"/></svg></div>
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,32 C480,4 960,44 1440,12" stroke="currentColor" class="text-artAmber" stroke-width="1.5" fill="none"/></svg></div>
 
 <!-- ════════════════════════════════════════
      TRAVEL BLOG
 ═════════════════════════════════════════ -->
-<section id="travel" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 ">
+<section id="travel" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-20 border-t border-black/5 dark:border-white/5">
     <div class="mb-14 reveal">
         <span class="font-bubbly text-sm text-travelGreen tracking-widest uppercase block mb-2">Travel &amp; Writing</span>
         <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white">Field notes from <span class="text-travelGreen text-neon-green">the road</span>.</h2>
         <p class="text-slate-500 dark:text-slate-400 text-sm mt-3">Blogs about places I go, things I notice, and the science I see everywhere.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+    <details class="stash reveal">
+        <summary>Posts in draft (3)<span>What is an atmospheric river? / first travel post / sketching the sky</span></summary>
+        <div class="stash-body">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
         <div class="blog-card bc-science opacity-60">
             <div class="flex items-center justify-between mb-4">
                 <span class="font-mono text-[10px] text-researchCyan uppercase tracking-widest">Science Blog · Coming Soon</span>
@@ -847,15 +795,17 @@
             <div class="mt-4 font-mono text-xs text-slate-400">→ rendering-canvas...</div>
         </div>
     </div>
+
+        </div>
+    </details>
 </section>
 
 <!-- ISOBAR DIVIDER -->
-<div class="isobar"><svg aria-hidden="true" viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,12 C480,40 960,8 1440,36" stroke="#f59e0b" stroke-width="1" fill="none"/><path d="M0,36 C480,8 960,40 1440,12" stroke="#06b6d4" stroke-width="0.7" fill="none" stroke-dasharray="9 6"/></svg></div>
+<div class="isobar"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-full"><path d="M0,12 C480,40 960,8 1440,36" stroke="currentColor" class="text-artAmber" stroke-width="1" fill="none"/><path d="M0,36 C480,8 960,40 1440,12" stroke="currentColor" class="text-researchCyan" stroke-width="0.7" fill="none" stroke-dasharray="9 6"/></svg></div>
 
 <!-- ════════════════════════════════════════
      CONTACT
 ═════════════════════════════════════════ -->
-</div>
 <section id="contact" class="relative max-w-7xl mx-auto px-6 lg:px-16 py-24 text-center reveal border-t border-black/5 dark:border-white/5">
     <span class="font-bubbly text-sm text-artAmber tracking-widest uppercase block mb-4">Contact</span>
     <h2 class="font-header text-4xl md:text-6xl text-slate-900 dark:text-white mb-6">Let's <span class="text-artAmber text-neon-amber">talk</span>.</h2>
@@ -863,31 +813,31 @@
 
     <div class="flex flex-wrap justify-center gap-4 mb-14">
         <a href="mailto:deepak_p@hy.iitr.ac.in" class="custom-hover inline-flex items-center gap-3 px-8 py-4 rounded-full border border-researchCyan text-researchCyan font-bubbly font-semibold hover:bg-researchCyan hover:text-white transition-all duration-300">
-            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             Academic Email
         </a>
         <a href="mailto:dpak.edu@gmail.com" class="custom-hover inline-flex items-center gap-3 px-8 py-4 rounded-full border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-bubbly font-semibold hover:border-artAmber hover:text-artAmber transition-all duration-300">
-            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             Personal Email
         </a>
     </div>
 
     <a href="/assets/deepak_cv.pdf" target="_blank" class="custom-hover inline-flex items-center gap-3 px-8 py-4 rounded-full border border-artAmber text-artAmber font-bubbly font-semibold hover:bg-artAmber hover:text-white transition-all duration-300 mb-14">
-        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-8m0 8-3-3m3 3 3-3M4 20h16"/></svg>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-8m0 8-3-3m3 3 3-3M4 20h16"/></svg>
         Get CV
     </a>
 
     <div class="flex justify-center gap-10 flex-wrap">
-        <a aria-label="LinkedIn" href="https://linkedin.com/in/deepak-p-0523ba184" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-neonPurple transition-colors">
-            <svg aria-hidden="true" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        <a href="https://linkedin.com/in/deepak-p-0523ba184" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-neonPurple transition-colors">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             <span class="font-mono text-xs">LinkedIn</span>
         </a>
-        <a aria-label="GitHub" href="https://github.com/dpak-p" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors">
-            <svg aria-hidden="true" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        <a href="https://github.com/dpak-p" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             <span class="font-mono text-xs">GitHub</span>
         </a>
-        <a aria-label="Scholar" href="#" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-artAmber transition-colors" title="Link updating soon...">
-            <svg aria-hidden="true" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <a href="#" target="_blank" class="custom-hover flex flex-col items-center gap-2 text-slate-400 hover:text-artAmber transition-colors" title="Link updating soon...">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <span class="font-mono text-xs">Scholar</span>
         </a>
     </div>
@@ -904,8 +854,7 @@
         <br><br>
         Please don't quote me anywhere—unless, of course, it's to offer me a research grant :D
     </p>
-
-</section>
+</footer>
 
 <footer class="border-t border-black/5 dark:border-white/5 py-8 px-6 text-center">
     <p class="font-mono text-xs text-slate-400">
@@ -935,45 +884,33 @@
     const storedTheme = localStorage.getItem('theme') || 'dark';
     html.classList.add(storedTheme);
 
-function updateToggle() {
+    function updateToggle() {
         const isDark = html.classList.contains('dark');
-
-        // Main nav toggle
         toggleKnob.classList.toggle('translate-x-8', isDark);
         moonIcon.classList.toggle('hidden', !isDark);
         sunIcon.classList.toggle('hidden', isDark);
-
-        // Hero toggle mobile
-        const heroToggleKnob = document.getElementById('heroToggleKnob');
-        if (heroToggleKnob) {
-            heroToggleKnob.classList.toggle('translate-x-7', isDark);
-            document.getElementById('heroMoonIcon').classList.toggle('hidden', !isDark);
-            document.getElementById('heroSunIcon').classList.toggle('hidden', isDark);
-        }
-
-        // Hero toggle desktop
-        const heroToggleKnobDesktop = document.getElementById('heroToggleKnobDesktop');
-        if (heroToggleKnobDesktop) {
-            heroToggleKnobDesktop.classList.toggle('translate-x-8', isDark);
-            document.getElementById('heroMoonIconDesktop').classList.toggle('hidden', !isDark);
-            document.getElementById('heroSunIconDesktop').classList.toggle('hidden', isDark);
-        }
     }
     updateToggle();
 
-    function toggleTheme() {
+    modeToggle.addEventListener('click', () => {
         const isDark = html.classList.contains('dark');
         html.classList.remove(isDark ? 'dark' : 'light');
         html.classList.add(isDark ? 'light' : 'dark');
         localStorage.setItem('theme', isDark ? 'light' : 'dark');
         updateToggle();
-    }
+    });
 
-    modeToggle.addEventListener('click', toggleTheme);
-    document.getElementById('heroModeToggle')?.addEventListener('click', toggleTheme);
-    document.getElementById('heroModeToggleDesktop')?.addEventListener('click', toggleTheme);
+    // 2. Custom cursor
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorGlow = document.getElementById('cursor-glow');
 
-
+    const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+    if (fine) window.addEventListener('mousemove', e => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top  = e.clientY + 'px';
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top  = e.clientY + 'px';
+    });
 
     // 3. Timeline expander
     function toggleTimeline() {
@@ -1010,64 +947,85 @@ function updateToggle() {
         });
     }, { threshold: 0.1 }).observe(hero);
 
-    // 6. Hero black hole orbital animation (preserved from original)
-    const centerNode = document.getElementById('center-node');
-    const nodes = document.querySelectorAll('.orbit-planet');
-    const svg   = document.getElementById('connection-svg');
+    // 6. Moisture flux field.
+    //    Noise is baked once per resize into a coarse angle grid; each frame is
+    //    a bilinear lookup plus one short stroke per particle. The loop is
+    //    suspended whenever the hero leaves the viewport or the tab is hidden,
+    //    and reduced-motion users get a single static frame.
+    (function () {
+        const cv = document.getElementById('flux');
+        if (!cv) return;
+        const cx = cv.getContext('2d', { alpha: true });
+        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const CELL = 44;
+        let W = 0, H = 0, cols = 0, rows = 0, ang = null, ps = [], live = true, tok = {};
 
-    nodes.forEach((_, i) => {
-        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-        path.id = `path-${i}`;
-        path.style.stroke      = 'rgba(139,92,246,0.2)';
-        path.style.strokeWidth = '1';
-        path.style.fill        = 'none';
-        svg.appendChild(path);
-    });
+        function tokens() {
+            const st = getComputedStyle(document.documentElement);
+            tok.a = st.getPropertyValue('--acc-teal').trim().replace(/\s+/g, ',');
+            tok.b = st.getPropertyValue('--acc-amber').trim().replace(/\s+/g, ',');
+            tok.dark = document.documentElement.classList.contains('dark');
+        }
+        const h2 = (x, y) => { const v = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return v - Math.floor(v); };
+        function vn(x, y) {
+            const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+            const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+            const a = h2(xi, yi), b = h2(xi + 1, yi), c = h2(xi, yi + 1), d = h2(xi + 1, yi + 1);
+            return (a + (b - a) * u) + ((c - a) + (a - b + d - c) * u) * v;
+        }
+        function build() {
+            cols = Math.ceil(W / CELL) + 2; rows = Math.ceil(H / CELL) + 2;
+            ang = new Float32Array(cols * rows);
+            for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+                const n = vn(i * 0.11, j * 0.11) * 0.68 + vn(i * 0.253, j * 0.253) * 0.32;
+                ang[j * cols + i] = (n * 2.9 - 0.35) + Math.sin(j * 0.07) * 0.25;  // biased west to east
+            }
+        }
+        function sample(px, py) {
+            const gx = px / CELL, gy = py / CELL;
+            const i = Math.min(cols - 2, Math.max(0, Math.floor(gx))), j = Math.min(rows - 2, Math.max(0, Math.floor(gy)));
+            const fx = gx - i, fy = gy - j;
+            const a = ang[j * cols + i], b = ang[j * cols + i + 1], c = ang[(j + 1) * cols + i], d = ang[(j + 1) * cols + i + 1];
+            return (a + (b - a) * fx) + ((c - a) + (a - b + d - c) * fx) * fy;
+        }
+        const spawn = () => ({ x: Math.random() * W, y: Math.random() * H, life: 20 + Math.random() * 220,
+                               sp: 0.45 + Math.random() * 1.15, w: Math.random() });
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+            W = cv.clientWidth; H = cv.clientHeight;
+            cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+            cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.lineCap = 'round';
+            build();
+            ps = Array.from({ length: Math.min(window.innerWidth < 720 ? 165 : 440,
+                                               Math.round(W * H / 11000)) }, spawn);
+            cx.clearRect(0, 0, W, H);
+            if (still) for (let k = 0; k < 170; k++) step();
+        }
+        function step() {
+            cx.globalCompositeOperation = 'destination-out';
+            cx.fillStyle = 'rgba(0,0,0,' + (tok.dark ? 0.055 : 0.05) + ')';
+            cx.fillRect(0, 0, W, H);
+            cx.globalCompositeOperation = 'source-over';
+            const base = tok.dark ? 0.4 : 0.3;
+            for (const p of ps) {
+                const a = sample(p.x, p.y), nx = p.x + Math.cos(a) * p.sp, ny = p.y + Math.sin(a) * p.sp;
+                const mix = p.w * 0.55 + (p.y / H) * 0.45;
+                cx.strokeStyle = 'rgba(' + (mix > 0.62 ? tok.b : tok.a) + ',' + (base * (0.35 + p.w * 0.65)).toFixed(3) + ')';
+                cx.lineWidth = p.w > 0.9 ? 1.5 : 1;
+                cx.beginPath(); cx.moveTo(p.x, p.y); cx.lineTo(nx, ny); cx.stroke();
+                p.x = nx; p.y = ny; p.life--;
+                if (p.life < 0 || nx < -20 || nx > W + 20 || ny < -20 || ny > H + 20) Object.assign(p, spawn());
+            }
+        }
+        tokens(); resize();
+        if (!still) (function loop() { if (live) step(); requestAnimationFrame(loop); })();
 
-    let time = 0, hoveringNode = false;
-
-    hero.addEventListener('mousemove', e => {
-        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-        const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
-        centerNode.style.transform = `perspective(1000px) rotateX(${-dy*15}deg) rotateY(${dx*15}deg) scale3d(1.02,1.02,1.02)`;
-    });
-    hero.addEventListener('mouseleave', () => {
-        centerNode.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-    });
-    nodes.forEach(n => {
-        n.addEventListener('mouseenter', () => hoveringNode = true);
-        n.addEventListener('mouseleave', () => hoveringNode = false);
-    });
-
-    (function animate() {
-        const isMobile = window.innerWidth < 768;
-        const baseSpeed = isMobile ? 0.001 : 0.002;
-        const hoverSpeed = isMobile ? 0.0002 : 0.0005;
-        time += hoveringNode ? hoverSpeed : baseSpeed;
-        const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-        const r  = Math.min(window.innerWidth, window.innerHeight) * 0.35;
-
-        nodes.forEach((node, i) => {
-            const angle = time + i * (Math.PI * 2 / nodes.length);
-            const tx = cx + Math.cos(angle) * r;
-            const ty = cy + Math.sin(angle) * r;
-                        node.style.left = tx + 'px';
-            node.style.top  = ty + 'px';
-            node.style.transform = 'translate(-50%,-50%)';
-
-            const path = document.getElementById(`path-${i}`);
-            const cp1x = cx + (tx - cx) * 0.5 + Math.sin(time * 3 + i) * 60;
-            const cp1y = cy + (ty - cy) * 0.5 + Math.cos(time * 3 + i) * 60;
-            path.setAttribute('d', `M ${cx} ${cy} Q ${cp1x} ${cp1y} ${tx} ${ty}`);
-        });
-
-        requestAnimationFrame(animate);
+        let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(resize, 180); });
+        document.addEventListener('visibilitychange', () => { live = !document.hidden; });
+        new IntersectionObserver(e => { live = e[0].isIntersecting && !document.hidden; }, { threshold: 0 })
+            .observe(document.getElementById('hero'));
+        modeToggle.addEventListener('click', tokens);
     })();
-
-    window.addEventListener('resize', () => {
-        svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
-    });
-    svg.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
 
     // 7. Scroll-reveal
     const revealEls = document.querySelectorAll('.reveal');
